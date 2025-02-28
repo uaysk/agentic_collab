@@ -1,7 +1,7 @@
 {
   "the Ville": {
-    "Hobbs Cafe": {
-      "cafe": [
+    "Dining Hall": {
+      "cafeteria": [
         "refrigerator",
         "cafe customer seating",
         "cooking area",
@@ -10,7 +10,7 @@
         "piano"
       ]
     },
-    "Isabella Rodriguez's apartment": {
+    "Apartment #3": {
       "main room": [
         "bed",
         "desk",
@@ -19,7 +19,7 @@
         "shelf"
       ]
     },
-    "The Rose and Crown Pub": {
+    "Bar": {
       "pub": [
         "shelf",
         "refrigerator",
@@ -30,15 +30,15 @@
         "microphone"
       ]
     },
-    "Fire station": {
-      "fire station": [
+    "Ville Special Forces Station": {
+      "Ville Special Forces Station": [
         "fire truck",
         "bunks",
         "common area"
       ]
     },
-    "The Willows Market and Pharmacy": {
-      "store": [
+    "Food and medicine storage": {
+      "storage": [
         "behind the pharmacy counter",
         "pharmacy store shelf",
         "pharmacy store counter",
@@ -47,7 +47,7 @@
         "grocery store counter"
       ]
     },
-    "Dorm for Oak Hill College": {
+    "Barracks #2": {
       "garden": [
         "dorm garden"
       ],
@@ -57,8 +57,8 @@
         "common room table"
       ]
     },
-    "Johnson Park": {
-      "park": [
+    "Botanical gardens": {
+      "Garden": [
         "park garden"
       ]
     }

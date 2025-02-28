@@ -1,6 +1,6 @@
 {
   "the Ville": {
-    "Oak Hill College": {
+    "Library": {
       "hallway": [],
       "library": [
         "library sofa",
@@ -13,11 +13,11 @@
         "classroom student seating"
       ]
     },
-    "Dorm for Oak Hill College": {
+    "Barracks #2": {
       "garden": [
         "dorm garden"
       ],
-      "Klaus Mueller's room": [
+      "Bedroom #1": [
         "bed",
         "game console",
         "closet",
@@ -39,8 +39,8 @@
         "toilet"
       ]
     },
-    "The Willows Market and Pharmacy": {
-      "store": [
+    "Food and medicine storage": {
+      "storage": [
         "grocery store shelf",
         "behind the grocery counter",
         "grocery store counter",
@@ -49,19 +49,19 @@
         "behind the pharmacy counter"
       ]
     },
-    "Fire station": {
-      "fire station": [
+    "Ville Special Forces Station": {
+      "Ville Special Forces Station": [
         "fire truck",
         "bunks",
         "common area"
       ]
     },
-    "Johnson Park": {
-      "park": [
+    "Botanical gardens": {
+      "Garden": [
         "park garden"
       ]
     },
-    "The Rose and Crown Pub": {
+    "Bar": {
       "pub": [
         "shelf",
         "refrigerator",
@@ -72,8 +72,8 @@
         "microphone"
       ]
     },
-    "Hobbs Cafe": {
-      "cafe": [
+    "Dining Hall": {
+      "cafeteria": [
         "refrigerator",
         "cafe customer seating",
         "cooking area",
