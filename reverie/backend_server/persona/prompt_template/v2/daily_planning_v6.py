@@ -6,6 +6,7 @@ from utils import debug
 from ..common import openai_config, get_prompt_file_path
 from ..gpt_structure import safe_generate_structured_response
 from ..print_prompt import print_run_prompts
+from cognitive_modules.plan import revise_identity 
 
 
 def create_prompt(prompt_input: dict[str, Any]):
@@ -45,6 +46,10 @@ def run_gpt_prompt_daily_plan(persona, wake_up_hour, test_input=None, verbose=Fa
   def create_prompt_input(persona, wake_up_hour, test_input=None):
     if test_input:
       return test_input
+
+    ## Triggering Identity revision at the star of the first day
+    if persona.scratch.get_str_curr_time_str() is None:
+       revise_identity(persona)
 
     prompt_input = {
       "identity_stable_set": persona.scratch.get_str_iss(),
