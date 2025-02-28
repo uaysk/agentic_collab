@@ -52,7 +52,7 @@ def ChatGPT_single_request_2(prompt):
   print("Prompt:", prompt, flush=True)
 
   completion = client.chat.completions.create(
-    model=openai_config["model"],
+    model="o3-mini",
     messages=[{"role": "user", "content": prompt}],
   )
 

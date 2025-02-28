@@ -1,0 +1,32 @@
+search_and_rescue.txt
+
+Variables: 
+!<INPUT 0>! -- persona 1 learned
+!<INPUT 1>! -- persona 2 learned
+!<INPUT 2>! -- current players status
+!<INPUT 3>! -- current conversation
+!<INPUT 4>! -- persona 1 name
+!<INPUT 5>! -- persona 2 name
+<commentblockmarker>###</commentblockmarker>
+Context for the task: 
+
+The following 2 people are doing a search and rescue mission. Either they are the search and rescue team or its an interaction between the rescuer and the rescuee.
+!<INPUT 0>!
+!<INPUT 1>!
+
+Current players status:
+!<INPUT 2>!
+
+Current conversation:
+!<INPUT 3>!
+
+---
+Task: Given the above, decide whether the search and rescue mission has ended, and whether the rescuee has feen found and rescued. If the mission is still going, the rescuee still needs to be rescued.
+Output format: Output a json of the following format: 
+{
+    "Did the search and rescue mission end?": <json Boolean>,
+    "Was !<INPUT 4>! rescued?": <json Boolean>,
+    "Was !<INPUT 5>! rescued?": <json Boolean>,
+}
+
+Output:
