@@ -3,21 +3,36 @@ Author: Joon Sung Park (joonspk@stanford.edu)
 File: views.py
 """
 import os
-import string
-import random
 import json
-from os import listdir
-import os
 
 import datetime
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from global_methods import *
+from global_methods import check_if_file_exists, find_filenames
+from django.conf import settings
 
-from django.contrib.staticfiles.templatetags.staticfiles import static
-from .models import *
+from .mqtt_client import DjangoMQTTClient, MQTTConnectionError
+from django.views.decorators.csrf import csrf_exempt
 
 fs_temp_storage = "temp_storage"
+
+# Initialize MQTT client only if MQTT is enabled
+mqtt_client = None
+if settings.USE_MQTT:
+  try:
+    mqtt_client = DjangoMQTTClient()
+    mqtt_client.connect()
+  except MQTTConnectionError as e:
+    raise RuntimeError(f"Failed to initialize MQTT client: {e}")
+
+# Store movement data temporarily
+movement_data = {}
+
+def _handle_movement_update(data):
+  """Handle movement updates from backend via MQTT."""
+  global movement_data
+  movement_data = data
+
 
 def landing(request): 
   context = {}
@@ -31,8 +46,10 @@ def demo(request, sim_code, step, play_speed="2"):
   step = int(step)
   play_speed_opt = {"1": 1, "2": 2, "3": 4,
                     "4": 8, "5": 16, "6": 32}
-  if play_speed not in play_speed_opt: play_speed = 2
-  else: play_speed = play_speed_opt[play_speed]
+  if play_speed not in play_speed_opt:
+    play_speed = 2
+  else:
+    play_speed = play_speed_opt[play_speed]
 
   # Loading the basic meta information about the simulation.
   meta = dict() 
@@ -240,62 +257,75 @@ def path_tester(request):
   return render(request, template, context)
 
 
-def process_environment(request): 
-  """
-  <FRONTEND to BACKEND> 
-  This sends the frontend visual world information to the backend server. 
-  It does this by writing the current environment representation to 
-  "storage/environment.json" file. 
+@csrf_exempt
+def process_environment(request):
+  """Process environment data from frontend."""
+  if request.method == 'POST':
+    try:
+      data = json.loads(request.body)
+      step = data.get('step')
+      sim_code = data.get('sim_code')
+      environment = data.get('environment', {})
 
-  ARGS:
-    request: Django request
-  RETURNS: 
-    HttpResponse: string confirmation message. 
-  """
-  # f_curr_sim_code = "temp_storage/curr_sim_code.json"
-  # with open(f_curr_sim_code) as json_file:  
-  #   sim_code = json.load(json_file)["sim_code"]
+      # Save environment data
+      sim_folder = f"storage/{sim_code}"
+      if not os.path.exists(sim_folder):
+        os.makedirs(sim_folder)
+      
+      env_file = f"{sim_folder}/environment/{step}.json"
+      with open(env_file, 'w') as f:
+        json.dump(environment, f, indent=2)
 
-  data = json.loads(request.body)
-  step = data["step"]
-  sim_code = data["sim_code"]
-  environment = data["environment"]
+      # If using MQTT, require MQTT to be available
+      if settings.USE_MQTT:
+        if not mqtt_client or not mqtt_client.is_connected:
+          raise RuntimeError("MQTT is enabled but client is not connected")
+        mqtt_client.publish(f"reverie/{sim_code}/environment", data)
+        return JsonResponse({"status": "success"})
+      
+      # File-based communication only if MQTT is disabled
+      return JsonResponse({"status": "success"})
 
-  with open(f"storage/{sim_code}/environment/{step}.json", "w") as outfile:
-    outfile.write(json.dumps(environment, indent=2))
-    outfile.flush()
+    except Exception as e:
+      return JsonResponse({"error": str(e)}, status=500)
 
-  return HttpResponse("received")
+@csrf_exempt
+def update_environment(request):
+  """Update environment with movement data."""
+  global movement_data
+  
+  if request.method == 'POST':
+    try:
+      data = json.loads(request.body)
+      step = data.get('step')
+      sim_code = data.get('sim_code')
 
+      # If using MQTT, require MQTT to be available
+      if settings.USE_MQTT:
+        if not mqtt_client or not mqtt_client.is_connected:
+          raise RuntimeError("MQTT is enabled but client is not connected")
 
-def update_environment(request): 
-  """
-  <BACKEND to FRONTEND> 
-  This sends the backend computation of the persona behavior to the frontend
-  visual server. 
-  It does this by reading the new movement information from 
-  "storage/movement.json" file.
+        # Subscribe to movement topic if not already subscribed
+        topic = f"reverie/{sim_code}/movement"
+        if topic not in mqtt_client._handlers:
+          mqtt_client.subscribe(topic, _handle_movement_update)
 
-  ARGS:
-    request: Django request
-  RETURNS: 
-    HttpResponse
-  """
-  # f_curr_sim_code = "temp_storage/curr_sim_code.json"
-  # with open(f_curr_sim_code) as json_file:  
-  #   sim_code = json.load(json_file)["sim_code"]
+        # Check if we have movement data for this step
+        if movement_data and movement_data.get("<step>") == step:
+          return JsonResponse(movement_data)
+        return JsonResponse({"<step>": step})
 
-  data = json.loads(request.body)
-  step = data["step"]
-  sim_code = data["sim_code"]
+      # File-based communication only if MQTT is disabled
+      movement_file = f"storage/{sim_code}/movement/{step}.json"
+      if os.path.exists(movement_file):
+        with open(movement_file, 'r') as f:
+          movement_data = json.load(f)
+        return JsonResponse(movement_data)
 
-  response_data = {"<step>": -1}
-  if (check_if_file_exists(f"storage/{sim_code}/movement/{step}.json")):
-    with open(f"storage/{sim_code}/movement/{step}.json") as json_file: 
-      response_data = json.load(json_file)
-      response_data["<step>"] = step
+      return JsonResponse({"<step>": step})
 
-  return JsonResponse(response_data)
+    except Exception as e:
+      return JsonResponse({"error": str(e)}, status=500)
 
 
 def path_tester_update(request): 
@@ -315,12 +345,3 @@ def path_tester_update(request):
     outfile.write(json.dumps(camera, indent=2))
 
   return HttpResponse("received")
-
-
-
-
-
-
-
-
-
