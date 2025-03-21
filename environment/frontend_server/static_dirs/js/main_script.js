@@ -562,7 +562,7 @@ function update(time, delta) {
     // We then send this to the frontend server:
     var retrieve_xobj = new XMLHttpRequest();
     retrieve_xobj.overrideMimeType("application/json");
-    retrieve_xobj.open("POST", "{% url 'process_environment' %}", true);
+    retrieve_xobj.open("POST", "{% url 'send_environment' %}", true);
     retrieve_xobj.send(json);
     // Finally, we update the phase variable to start the "udpate" process.
     // Now that we sent all persona locations to the backend server, we need
@@ -581,7 +581,7 @@ function update(time, delta) {
     if (timer <= 0) {
       var update_xobj = new XMLHttpRequest();
       update_xobj.overrideMimeType("application/json");
-      update_xobj.open("POST", "{% url 'update_environment' %}", true);
+      update_xobj.open("GET", "{% url 'get_movements' %}", true);
       update_xobj.addEventListener("load", function () {
         if (this.readyState === 4) {
           if (update_xobj.status === 200) {
@@ -596,7 +596,7 @@ function update(time, delta) {
       update_xobj.send(JSON.stringify({ step: step, sim_code: sim_code }));
     }
     timer = timer - 1;
-  } else {
+  } else if (phase == "execute") {
     // This is where we actually move the personas in the visual world. Each
     // backend computation in execute_movement moves each persona by one tile
     // (or some personas might not move if they choose not to).

@@ -125,7 +125,7 @@ def home(request):
   f_curr_sim_code = f"{fs_temp_storage}/curr_sim_code.json"
   f_curr_step = f"{fs_temp_storage}/curr_step.json"
 
-  if not check_if_file_exists(f_curr_step): 
+  if not check_if_file_exists(f_curr_step) or not check_if_file_exists(f_curr_sim_code): 
     context = {}
     template = "home/error_start_backend.html"
     return render(request, template, context)
@@ -136,20 +136,19 @@ def home(request):
   with open(f_curr_step) as json_file:  
     step = json.load(json_file)["step"]
 
-  os.remove(f_curr_step)
-
   persona_names = []
   persona_names_set = set()
-  for i in find_filenames(f"storage/{sim_code}/personas", ""): 
-    x = i.split("/")[-1].strip()
-    if x[0] != ".": 
-      persona_names += [[x, x.replace(" ", "_")]]
-      persona_names_set.add(x)
+  for filepath in find_filenames(f"storage/{sim_code}/personas", ""): 
+    if os.path.isdir(filepath):
+      x = filepath.split("/")[-1].strip()
+      if x[0] != ".": 
+        persona_names += [[x, x.replace(" ", "_")]]
+        persona_names_set.add(x)
 
   persona_init_pos = []
   file_count = []
-  for i in find_filenames(f"storage/{sim_code}/environment", ".json"):
-    x = i.split("/")[-1].strip()
+  for filepath in find_filenames(f"storage/{sim_code}/environment", ".json"):
+    x = filepath.split("/")[-1].strip()
     if x[0] != ".": 
       file_count += [int(x.split(".")[0])]
   curr_json = f'storage/{sim_code}/environment/{str(max(file_count))}.json'
@@ -158,6 +157,8 @@ def home(request):
     for key, val in persona_init_pos_dict.items(): 
       if key in persona_names_set: 
         persona_init_pos += [[key, val["x"], val["y"]]]
+
+  os.remove(f_curr_step)
 
   context = {"sim_code": sim_code,
              "step": step, 
@@ -258,8 +259,17 @@ def path_tester(request):
 
 
 @csrf_exempt
-def process_environment(request):
-  """Process environment data from frontend and send it to the backend."""
+def send_environment(request):
+  """
+  <FRONTEND to BACKEND> 
+  This sends the frontend visual world information to the backend server. 
+  It does this by writing the current environment representation to 
+  "storage/environment/{step}.json" file. 
+  ARGS:
+    request: Django request
+  RETURNS: 
+    HttpResponse: string confirmation message. 
+  """
   if request.method == 'POST':
     try:
       data = json.loads(request.body)
@@ -291,12 +301,25 @@ def process_environment(request):
     except Exception as e:
       return JsonResponse({"error": str(e)}, status=500)
 
+  return JsonResponse({"error": "Invalid request method"}, status=405)
+
 @csrf_exempt
-def update_environment(request):
-  """Update environment with movement data from the backend."""
+def get_movements(request):
+  """
+  <BACKEND to FRONTEND> 
+  This sends the backend computation of the persona behavior to the frontend
+  client.
+  It does this by reading the new movement information from 
+  "storage/movement/{step}.json" file.
+
+  ARGS:
+    request: Django request
+  RETURNS: 
+    HttpResponse
+  """
   global movement_data
   
-  if request.method == 'POST':
+  if request.method == 'GET':
     try:
       data = json.loads(request.body)
       step = data.get('step')
@@ -313,21 +336,23 @@ def update_environment(request):
           mqtt_client.subscribe(topic, _handle_movement_update)
 
         # Check if we have movement data for this step
-        if movement_data and movement_data.get("<step>") == step:
+        if movement_data and movement_data.get("step") == step:
           return JsonResponse(movement_data)
         return JsonResponse({"<step>": step})
 
-      # File-based communication only if MQTT is disabled
-      movement_file = f"storage/{sim_code}/movement/{step}.json"
-      if os.path.exists(movement_file):
-        with open(movement_file, 'r') as f:
-          movement_data = json.load(f)
-        return JsonResponse(movement_data)
-
-      return JsonResponse({"<step>": step})
+      else:
+        # File-based communication if MQTT is disabled
+        movement_file = f"storage/{sim_code}/movement/{step}.json"
+        if os.path.exists(movement_file):
+          with open(movement_file, 'r') as f:
+            movement_data = json.load(f)
+          return JsonResponse(movement_data)
+        return JsonResponse({"<step>": step})
 
     except Exception as e:
       return JsonResponse({"error": str(e)}, status=500)
+
+  return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
 def path_tester_update(request): 
