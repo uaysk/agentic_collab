@@ -59,6 +59,14 @@ class ReverieMQTTClient:
     self.client.subscribe(topic)
     self._handlers[topic] = handler
 
+  def unsubscribe(self, topic: str):
+    """Unsubscribe from a topic.
+
+    Args:
+        topic: MQTT topic to unsubscribe from
+    """
+    self.client.unsubscribe(topic)
+
   def publish(self, topic: str, data: Dict[str, Any]):
     """Publish data to a topic.
 

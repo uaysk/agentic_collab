@@ -259,7 +259,7 @@ def path_tester(request):
 
 @csrf_exempt
 def process_environment(request):
-  """Process environment data from frontend."""
+  """Process environment data from frontend and send it to the backend."""
   if request.method == 'POST':
     try:
       data = json.loads(request.body)
@@ -271,27 +271,29 @@ def process_environment(request):
       sim_folder = f"storage/{sim_code}"
       if not os.path.exists(sim_folder):
         os.makedirs(sim_folder)
-      
-      env_file = f"{sim_folder}/environment/{step}.json"
-      with open(env_file, 'w') as f:
-        json.dump(environment, f, indent=2)
 
       # If using MQTT, require MQTT to be available
       if settings.USE_MQTT:
         if not mqtt_client or not mqtt_client.is_connected:
           raise RuntimeError("MQTT is enabled but client is not connected")
-        mqtt_client.publish(f"reverie/{sim_code}/environment", data)
+        mqtt_data = {
+          "step": step,
+          "environment": environment
+        }
+        mqtt_client.publish(f"reverie/{sim_code}/environment", mqtt_data)
         return JsonResponse({"status": "success"})
-      
-      # File-based communication only if MQTT is disabled
-      return JsonResponse({"status": "success"})
+      else:
+        env_file = f"{sim_folder}/environment/{step}.json"
+        with open(env_file, 'w') as f:
+          json.dump(environment, f, indent=2)
+        return JsonResponse({"status": "success"})
 
     except Exception as e:
       return JsonResponse({"error": str(e)}, status=500)
 
 @csrf_exempt
 def update_environment(request):
-  """Update environment with movement data."""
+  """Update environment with movement data from the backend."""
   global movement_data
   
   if request.method == 'POST':

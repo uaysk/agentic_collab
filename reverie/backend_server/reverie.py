@@ -29,7 +29,7 @@ import traceback
 from typing import Optional, Dict, Any, Tuple
 
 from global_methods import read_file_to_list, check_if_file_exists, copyanything, freeze
-from .utils import maze_assets_loc, fs_storage, fs_temp_storage
+from utils import maze_assets_loc, fs_storage, fs_temp_storage
 from maze import Maze
 from persona.persona import Persona
 from persona.cognitive_modules.converse import load_history_via_whisper
@@ -160,30 +160,30 @@ class ReverieServer:
 
     if use_mqtt:
       self.mqtt_client = ReverieMQTTClient(client_id=f"reverie_backend_{sim_code}")
-      # Subscribe to environment updates from frontend
-      self.mqtt_client.subscribe(f"reverie/{sim_code}/environment", 
-                               lambda data: self._handle_environment_update(data, headless=False))
-      # Publish movement updates to frontend
       self.movement_topic = f"reverie/{sim_code}/movement"
-    else:
-      # SIGNALING THE FRONTEND SERVER: 
-      # curr_sim_code.json contains the current simulation code, and
-      # curr_step.json contains the current step of the simulation. These are 
-      # used to communicate the code and step information to the frontend. 
-      # Note that step file is removed as soon as the frontend opens up the 
-      # simulation. 
-      curr_sim_code = dict()
-      curr_sim_code["sim_code"] = self.sim_code
-      with open(f"{fs_temp_storage}/curr_sim_code.json", "w") as outfile: 
-        outfile.write(json.dumps(curr_sim_code, indent=2))
-      
-      curr_step = dict()
-      curr_step["step"] = self.step
-      with open(f"{fs_temp_storage}/curr_step.json", "w") as outfile: 
-        outfile.write(json.dumps(curr_step, indent=2))
+      self.environment_topic = f"reverie/{sim_code}/environment"
 
-  def _handle_environment_update(self, data: Dict[str, Any], headless: bool = False) -> None:
-    """Handle environment update from frontend via MQTT."""
+    # SIGNALING THE FRONTEND SERVER:
+    # curr_sim_code.json contains the current simulation code, and
+    # curr_step.json contains the current step of the simulation. These are
+    # used to communicate the code and step information to the frontend.
+    # Note that step file is removed as soon as the frontend opens up the
+    # simulation.
+    curr_sim_code = dict()
+    curr_sim_code["sim_code"] = self.sim_code
+    with open(f"{fs_temp_storage}/curr_sim_code.json", "w") as outfile: 
+      outfile.write(json.dumps(curr_sim_code, indent=2))
+    
+    curr_step = dict()
+    curr_step["step"] = self.step
+    with open(f"{fs_temp_storage}/curr_step.json", "w") as outfile: 
+      outfile.write(json.dumps(curr_step, indent=2))
+
+  def _handle_environment_update(self, data: Dict[str, Any]) -> None:
+    """
+    Handle environment update from frontend via MQTT by dumping the new
+    environment info to a file for the server to read.
+    """
     try:
       step = data["step"]
       environment = data["environment"]
@@ -193,14 +193,11 @@ class ReverieServer:
       with open(f"{sim_folder}/environment/{step}.json", "w") as outfile:
         outfile.write(json.dumps(environment, indent=2))
 
-      # Process the environment update
-      self._process_environment_update(step, environment, headless)
-
     except Exception as e:
       print(f"Error handling environment update: {e}")
       traceback.print_exc()
 
-  def _process_environment_update(self, step: int, environment: Dict[str, Any], headless: bool = False, game_obj_cleanup: Optional[Dict[Tuple, Tuple[int, int]]] = None) -> None:
+  def _process_environment_update(self, environment: Dict[str, Any], headless: bool = False, game_obj_cleanup: Optional[Dict[Tuple, Tuple[int, int]]] = None) -> None:
     """
     Process environment update and generate next movement.
     This function handles the core simulation logic:
@@ -306,6 +303,14 @@ class ReverieServer:
     with open(curr_move_file, "w") as outfile:
       outfile.write(json.dumps(movements, indent=2))
 
+    # Publish movement data via MQTT if enabled
+    if self.use_mqtt:
+      data = {
+        "step": self.step,
+        "movements": movements
+      }
+      self.mqtt_client.publish(self.movement_topic, data)
+
     # Run any plugins that are in the plugin folder
     if os.path.exists(f"{sim_folder}/plugins"):
       plugins = os.listdir(f"{sim_folder}/plugins")
@@ -346,22 +351,25 @@ class ReverieServer:
             ) as outfile:
               outfile.write(json.dumps(response, indent=2))
 
-    # If we're running in headless mode, also create the environment file
-    # to immediately trigger the next simulation step
-    if headless:
-      with open(
-        f"{sim_folder}/environment/{self.step + 1}.json", "w"
-      ) as outfile:
-        outfile.write(json.dumps(next_env, indent=2))
-
-    # Publish movement data via MQTT if enabled
-    if self.use_mqtt:
-      self.mqtt_client.publish(self.movement_topic, movements)
-
     # After this cycle, the world takes one step forward, and the
     # current time moves by <sec_per_step> amount.
     self.step += 1
     self.curr_time += datetime.timedelta(seconds=self.sec_per_step)
+
+    # If we're running in headless mode, also create the environment file
+    # to immediately trigger the next simulation step
+    if headless:
+      if self.use_mqtt:
+        data = {
+          "step": self.step,
+          "environment": next_env
+        }
+        self.mqtt_client.publish(self.environment_topic, data)
+      else:
+        with open(
+          f"{sim_folder}/environment/{self.step}.json", "w"
+        ) as outfile:
+          outfile.write(json.dumps(next_env, indent=2))
 
   def start_server(self, int_counter: int, headless: bool = False) -> None:
     """
@@ -390,65 +398,48 @@ class ReverieServer:
     # <game_obj_cleanup> is used for that.
     game_obj_cleanup = dict()
 
+    if self.use_mqtt:
+      # Subscribe to environment updates from frontend
+      self.mqtt_client.subscribe(
+        self.environment_topic, 
+        lambda data: self._handle_environment_update(data)
+      )
+
     # The main while loop of Reverie.
     while (True): 
       # Done with this iteration if <int_counter> reaches 0.
       if int_counter == 0:
+        if self.use_mqtt:
+          self.mqtt_client.unsubscribe(self.environment_topic)
         break
 
-      if self.use_mqtt:
-        # In MQTT mode, we wait for environment updates via MQTT
-        # The _handle_environment_update method will be called automatically
-        # when we receive an environment update
-        if headless:
-          # In headless mode with MQTT, we need to trigger the next step
-          # by publishing an environment update with the current state
-          next_env = {}
-          for persona_name, persona in self.personas.items():
-            curr_tile = self.personas_tile[persona_name]
-            next_env[persona_name] = {
-              "x": curr_tile[0],
-              "y": curr_tile[1],
-              "maze": self.maze.maze_name,
-            }
+      # <curr_env_file> file is the file that our frontend outputs. When the
+      # frontend has done its job and moved the personas, then it will put a
+      # new environment file that matches our step count. That's when we run
+      # the content of this for loop. Otherwise, we just wait.
+      curr_env_file = f"{sim_folder}/environment/{self.step}.json"
+      if check_if_file_exists(curr_env_file):
+        try: 
+          with open(curr_env_file) as json_file:
+            new_env = json.load(json_file)
+            env_retrieved = True
+        except Exception as e:
+          print(f"Error loading environment file: {e}")
+          traceback.print_exc()
+          env_retrieved = False
 
-          # Publish the environment update to trigger the next step
-          data = {
-            "step": self.step,
-            "sim_code": self.sim_code,
-            "environment": next_env
-          }
-          self.mqtt_client.publish(f"reverie/{self.sim_code}/environment", data)
+        if env_retrieved:
+          # This is where we go through <game_obj_cleanup> to clean up all
+          # object actions that were used in this cycle.
+          for key, val in game_obj_cleanup.items():
+            # We turn all object actions to their blank form (with None).
+            self.maze.turn_event_from_tile_idle(key, val)
+          # Then we initialize game_obj_cleanup for this cycle.
+          game_obj_cleanup = dict()
+
+          # Process environment update
+          self._process_environment_update(new_env, headless, game_obj_cleanup)
           int_counter -= 1
-        time.sleep(self.server_sleep)
-      else:
-        # <curr_env_file> file is the file that our frontend outputs. When the
-        # frontend has done its job and moved the personas, then it will put a
-        # new environment file that matches our step count. That's when we run
-        # the content of this for loop. Otherwise, we just wait.
-        curr_env_file = f"{sim_folder}/environment/{self.step}.json"
-        if check_if_file_exists(curr_env_file):
-          try: 
-            with open(curr_env_file) as json_file:
-              new_env = json.load(json_file)
-              env_retrieved = True
-          except Exception as e:
-            print(f"Error loading environment file: {e}")
-            traceback.print_exc()
-            env_retrieved = False
-
-          if env_retrieved:
-            # This is where we go through <game_obj_cleanup> to clean up all
-            # object actions that were used in this cycle.
-            for key, val in game_obj_cleanup.items():
-              # We turn all object actions to their blank form (with None).
-              self.maze.turn_event_from_tile_idle(key, val)
-            # Then we initialize game_obj_cleanup for this cycle.
-            game_obj_cleanup = dict()
-
-            # Process environment update
-            self._process_environment_update(self.step, new_env, headless, game_obj_cleanup)
-            int_counter -= 1
 
       # Sleep so we don't burn our machines.
       time.sleep(self.server_sleep)

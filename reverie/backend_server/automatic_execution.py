@@ -5,6 +5,7 @@ import os
 import sys
 import time
 import shutil
+import reverie
 import argparse
 import webbrowser
 import subprocess
@@ -14,8 +15,6 @@ from pathlib import Path
 from datetime import datetime
 from multiprocessing import Process
 from openai_cost_logger import OpenAICostLoggerViz
-
-from .reverie import ReverieServer
 
 
 def parse_args() -> Tuple[str, str, int, str, str, str, str, bool]:
@@ -223,7 +222,7 @@ if __name__ == '__main__':
             target = f"{exp_name}-s-{idx}-{current_step}-{curr_checkpoint}"
             print(f"(Auto-Exec): STAGE {idx}", flush=True)
             print(f"(Auto-Exec): Running experiment '{exp_name}' from step '{current_step}' to '{curr_checkpoint}'", flush=True)
-            rs = ReverieServer(origin, target, use_mqtt=use_mqtt)
+            rs = reverie.ReverieServer(origin, target, use_mqtt=use_mqtt)
 
             # Load agent history if provided
             if history_file and current_step == 0:
