@@ -1061,7 +1061,7 @@ def plan(persona, maze, personas, new_day, retrieved):
   #         b) "react"
   #         c) False
   if focused_event: 
-    reaction_mode = _should_(persona, focused_event, personas)
+    reaction_mode = _should_react(persona, focused_event, personas)
     if reaction_mode: 
       # If we do want to chat, then we generate conversation 
       if reaction_mode[:9] == "chat with":
