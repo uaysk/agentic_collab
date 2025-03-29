@@ -649,7 +649,7 @@ def _long_term_planning(persona, new_day):
     # set of daily requirements.
     persona.scratch.daily_req = generate_first_daily_plan(persona, 
                                                           wake_up_hour)
-  elif new_day == "New day":
+  elif new_day == "New day" and not persona.noncognitive: #we only revise the personas of cognitive agents
     revise_identity(persona)
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - TODO
@@ -1127,7 +1127,7 @@ def plan(persona, maze, personas, new_day, retrieved):
     The target action address of the persona (persona.scratch.act_address).
   """ 
   # PART 1: Generate the hourly schedule. 
-  if new_day: 
+  if new_day:
     _long_term_planning(persona, new_day)
 
   # PART 2: If the current action has expired, we want to create a new plan.
