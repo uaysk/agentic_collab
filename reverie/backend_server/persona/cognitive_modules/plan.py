@@ -1127,7 +1127,7 @@ def plan(persona, maze, personas, new_day, retrieved):
     The target action address of the persona (persona.scratch.act_address).
   """ 
   # PART 1: Generate the hourly schedule. 
-  if new_day:
+  if new_day and not persona.scratch.is_noncognitive():
     _long_term_planning(persona, new_day)
 
   # PART 2: If the current action has expired, we want to create a new plan.
