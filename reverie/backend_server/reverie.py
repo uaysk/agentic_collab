@@ -475,15 +475,17 @@ class ReverieServer:
                   prompt_file_path = (
                     f"{plugin_path}/prompt_template/{prompt_file}"
                   )
-                  json_output, response = run_plugin(
+                  response = run_plugin(
                     prompt_file_path,
                     movements,
                     self.personas,
                   )
+                  # json_output = json.loads(response)
+                  print(f"""Luigi: {response}""")  
 
-                  if json_output["Did the search and rescue mission end?"] == True:
-                    print("mission success")
-                    raise KeyboardInterrupt
+                  # if json_output["Did the search and rescue mission end?"] == True:
+                  #   print("mission success")
+                  #   raise KeyboardInterrupt
 
 
                   with open(

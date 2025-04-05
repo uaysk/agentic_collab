@@ -310,6 +310,8 @@ def ChatGPT_safe_generate_response(
         if not chatgpt_response:
           raise Exception("Error: No valid response from LLM.")
         curr_gpt_response = chatgpt_response.strip()
+        print(f"""Mario: {curr_gpt_response=}""")
+
         if example_output or special_instruction:
           end_index = curr_gpt_response.rfind("}") + 1
           curr_gpt_response = curr_gpt_response[:end_index]

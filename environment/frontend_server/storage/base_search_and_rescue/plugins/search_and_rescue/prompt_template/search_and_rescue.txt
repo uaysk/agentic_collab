@@ -9,7 +9,7 @@ Variables:
 <commentblockmarker>###</commentblockmarker>
 Context for the task: 
 
-Below we have the Current players status and Current conversation. Decide whether the Search and Rescue mission and Maria Lopez has been found.
+Below we have the Current players learned information, Current players status and Current conversation.
 
 Current players learned information:
 !<INPUT 0>!
@@ -23,7 +23,17 @@ Current conversation:
 !<INPUT 4>!
 
 ---
-Task: Given the Current Player Status and Current Conversation, decide whether the search and rescue mission has ended. 
+Task: Given the 
+Current players learned information:
+!<INPUT 0>!
+!<INPUT 1>!
+!<INPUT 2>!
+and 
+Current Player Status:!<INPUT 3>!
+and 
+Current conversation: !<INPUT 4>!  
+, decide whether the search and rescue mission has ended. 
+
 Output format: Output a json of the following format: 
 
 {
