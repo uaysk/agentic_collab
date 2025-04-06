@@ -666,7 +666,7 @@ def _long_term_planning(persona, new_day):
 
 
   # Added March 4 -- adding plan to the memory.
-  if not persona.noncognitive: # only add plan to memory if cognitive
+  if not persona.scratch.is_noncognitive(): # only add plan to memory if cognitive
     thought = f"This is {persona.scratch.name}'s plan for {persona.scratch.curr_time.strftime('%A %B %d')}:"
     for i in persona.scratch.daily_req: 
       thought += f" {i},"
