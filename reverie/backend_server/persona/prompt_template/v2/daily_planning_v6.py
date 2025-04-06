@@ -16,21 +16,23 @@ def create_prompt(prompt_input: dict[str, Any]):
   wake_up_hour = prompt_input["wake_up_hour"]
   noncognitive = prompt_input["noncognitive"]
 
+  prompt = None
   if noncognitive:
     prompt = f"""
 {identity_stable_set}
 
-In general, {lifestyle}
-Today is {curr_date}. Describe {persona_name}'s plan for the whole day, from morning 'til night, in broad-strokes. Include the time of the day. e.g., "powered on and await tasks at {wake_up_hour}"
-Note that since {persona_name} is noncognitive, they should be scheduled to await tasks all day until it is time for them to be powered off.
+  In general, {lifestyle}
+  Today is {curr_date}. Describe {persona_name}'s plan for the whole day, from morning 'til night, in broad-strokes. Include the time of the day. e.g., "powered on and await tasks at {wake_up_hour}"
+  Note that since {persona_name} is noncognitive, they should be scheduled to await tasks all day until it is time for them to be powered off.
     """
+    return prompt
+  else:
+      prompt = f"""
+  {identity_stable_set}
 
-    prompt = f"""
-{identity_stable_set}
-
-In general, {lifestyle}
-Today is {curr_date}. Describe {persona_name}'s plan for the whole day, from morning 'til night, in broad-strokes. Include the time of the day. e.g., "wake up and complete their morning routine at {wake_up_hour}", "have lunch at 12:00 pm", "watch TV from 7 to 8 pm".
-"""
+  In general, {lifestyle}
+  Today is {curr_date}. Describe {persona_name}'s plan for the whole day, from morning 'til night, in broad-strokes. Include the time of the day. e.g., "wake up and complete their morning routine at {wake_up_hour}", "have lunch at 12:00 pm", "watch TV from 7 to 8 pm".
+  """
   return prompt
 
 
