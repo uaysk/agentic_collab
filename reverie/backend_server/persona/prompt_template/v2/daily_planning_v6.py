@@ -14,8 +14,18 @@ def create_prompt(prompt_input: dict[str, Any]):
   curr_date = prompt_input["curr_date"]
   persona_name = prompt_input["persona_name"]
   wake_up_hour = prompt_input["wake_up_hour"]
+  noncognitive = prompt_input["noncognitive"]
 
-  prompt = f"""
+  if noncognitive:
+    prompt = f"""
+{identity_stable_set}
+
+In general, {lifestyle}
+Today is {curr_date}. Describe {persona_name}'s plan for the whole day, from morning 'til night, in broad-strokes. Include the time of the day. e.g., "powered on and await tasks at {wake_up_hour}"
+Note that since {persona_name} is noncognitive, they should be scheduled to await tasks all day until it is time for them to be powered off.
+    """
+
+    prompt = f"""
 {identity_stable_set}
 
 In general, {lifestyle}
@@ -52,6 +62,7 @@ def run_gpt_prompt_daily_plan(persona, wake_up_hour, test_input=None, verbose=Fa
       "curr_date": persona.scratch.get_str_curr_date_str(),
       "persona_name": persona.scratch.get_str_firstname(),
       "wake_up_hour": f"{str(wake_up_hour)}:00",
+      "noncognitive": persona.scratch.is_noncognitive()
     }
 
     return prompt_input

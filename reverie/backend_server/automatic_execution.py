@@ -203,7 +203,7 @@ if __name__ == '__main__':
     print(f"(Auto-Exec): Target: {target}", flush=True)
     print(f"(Auto-Exec): Total steps: {tot_steps}", flush=True)
     print(f"(Auto-Exec): Checkpoint Freq: {checkpoint_freq}", flush=True)
-
+    
     while current_step < tot_steps:
         try:
             steps_to_run = curr_checkpoint - current_step
