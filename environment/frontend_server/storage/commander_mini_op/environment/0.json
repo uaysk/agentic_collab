@@ -1,0 +1,33 @@
+{
+  "Isabella Rodriguez": {
+    "maze": "the_ville",
+    "x": 30,
+    "y": 46
+  },
+  "Klaus Mueller": {
+    "maze": "the_ville",
+    "x": 30,
+    "y": 46
+  },
+  "Maria Lopez": {
+    "maze": "the_ville",
+    "x": 30,
+    "y": 46
+  }
+  , 
+  "Commander Cody": {
+    "maze": "the_ville",
+    "x": 115,
+    "y": 40
+  },
+  "Bomb Expert Bob": {
+    "maze": "the_ville",
+    "x": 126,
+    "y": 40
+  },
+  "Tactical Operations Expert Tim": {
+    "maze": "the_ville",
+    "x": 120,
+    "y": 40
+  }
+}

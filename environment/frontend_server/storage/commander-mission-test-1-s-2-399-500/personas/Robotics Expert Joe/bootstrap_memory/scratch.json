@@ -1,0 +1,475 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "February 13, 2023, 01:23:20",
+  "curr_tile": [
+    51,
+    37
+  ],
+  "daily_plan_req": "1. Wake up and complete the morning routine at 1:00 AM to start the day refreshed and ready for precise technical work.   2. At 2:00 AM, review the latest data from the midnight operation and conduct a quick briefing with the emergency response team to ensure all robotic systems are fully operational.   3. By 4:00 AM, head to Johnson Park to coordinate with Commander Cody, offering expert tactical advice on the use of explosive ordnance disposal and remote manipulation systems for the on-going hazardous operation.   4. Have a lunch break at 12:00 PM to recharge and discuss any mid-day adjustments with team members.   5. In the afternoon, around 3:00 PM, analyze operation performance data and strategize improvements for future missions, ensuring every technical intervention is reviewed for safety and efficacy.   6. Wind down the day with a debrief and a relaxing TV break from 7:00 PM to 8:00 PM, preparing to retire by 9:00 PM for a disciplined sleep schedule.",
+  "name": "Robotics Expert Joe",
+  "first_name": "Joe",
+  "last_name": "Expert",
+  "age": 36,
+  "innate": "innovative, precise, methodical",
+  "learned": "Robotics Expert Joe is a specialist in designing and operating robotic systems for hazardous environments. He has extensive experience with explosive ordnance disposal robots and remote manipulation systems.",
+  "currently": "Status: On Monday, February 13 at 00:00 AM at Johnson Park, Robotics Expert Joe is actively advising Commander Cody on the tactical use of advanced robotic systems for safely retrieving and disarming the explosive device found in the suspicious backpack. With all his remote manipulation techniques and robotic tools meticulously prepared and tested, Joe is executing the mission with a mix of determination and cautious optimism. Every challenge and test over recent days has sharpened his expertise and reinforced his resolve to minimize human risk. Now, as he oversees the operation, Joe remains focused on ensuring that every precise, technical intervention contributes to the safe and successful neutralization of the threat.",
+  "lifestyle": "Robotics Expert Joe maintains a disciplined schedule, going to bed around 9pm and waking up at 1am.",
+  "living_area": "the Ville:Fire station:fire station",
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 40,
+  "importance_ele_n": 37,
+  "thought_count": 5,
+  "daily_req": [
+    "wake up and complete the morning routine at 1:00 AM",
+    "review the latest data from the midnight operation and conduct a briefing with the emergency response team at 2:00 AM",
+    "head to Johnson Park to coordinate with Commander Cody at 4:00 AM",
+    "engage in tactical advice on explosive ordnance disposal and remote manipulation systems with the team",
+    "have lunch at 12:00 PM to recharge and discuss any mid-day adjustments with team members",
+    "analyze operation performance data and strategize improvements for future missions at 3:00 PM",
+    "debrief the day's progress and gather feedback from the team",
+    "wind down with a relaxing TV break from 7:00 PM to 8:00 PM",
+    "prepare to retire by 9:00 PM for a disciplined sleep schedule"
+  ],
+  "f_daily_schedule": [
+    [
+      "advising Commander Cody on the tactical use of advanced robotic systems (advising Commander Cody on the tactical use of advanced robotic systems)",
+      5
+    ],
+    [
+      "advising Commander Cody on the tactical use of advanced robotic systems (discussing the current situation with Commander Cody)",
+      5
+    ],
+    [
+      "advising Commander Cody on the tactical use of advanced robotic systems (reviewing the specifications of the robotic systems available)",
+      5
+    ],
+    [
+      "advising Commander Cody on the tactical use of advanced robotic systems (analyzing the layout of the area where the explosive device is located)",
+      5
+    ],
+    [
+      "advising Commander Cody on the tactical use of advanced robotic systems (assessing potential risks associated with the operation)",
+      5
+    ],
+    [
+      "advising Commander Cody on the tactical use of advanced robotic systems (demonstrating the remote manipulation techniques to Commander Cody)",
+      5
+    ],
+    [
+      "advising Commander Cody on the tactical use of advanced robotic systems (on the way to coordinating with the emergency response team for support)",
+      0
+    ],
+    [
+      "advising Commander Cody on the tactical use of advanced robotic systems (talking to Robotics Expert Joe about continuously monitoring high-sensitivity sensor feeds for any minute deviations with respect to the suspicious backpack threat, so that immediate perimeter adjustments can be coordinated until Commander Cody confirms complete neutralization of the risk)",
+      27
+    ],
+    [
+      "advising Commander Cody on the tactical use of advanced robotic systems (finalizing the tactical plan with Commander Cody)",
+      3
+    ],
+    [
+      "waking up and completing the morning routine (waking up and turning off the alarm)",
+      5
+    ],
+    [
+      "waking up and completing the morning routine (stretching to wake up the body)",
+      5
+    ],
+    [
+      "waking up and completing the morning routine (brushing teeth)",
+      5
+    ],
+    [
+      "waking up and completing the morning routine (washing face)",
+      5
+    ],
+    [
+      "waking up and completing the morning routine (taking a shower)",
+      10
+    ],
+    [
+      "waking up and completing the morning routine (drying off and getting dressed)",
+      10
+    ],
+    [
+      "waking up and completing the morning routine (preparing a quick breakfast)",
+      10
+    ],
+    [
+      "waking up and completing the morning routine (eating breakfast while reviewing the day\u2019s tasks)",
+      10
+    ],
+    [
+      "reviewing the latest data from the midnight operation and conducting a briefing with the emergency response team (waking up and getting out of bed)",
+      5
+    ],
+    [
+      "reviewing the latest data from the midnight operation and conducting a briefing with the emergency response team (brushing teeth and washing face)",
+      5
+    ],
+    [
+      "reviewing the latest data from the midnight operation and conducting a briefing with the emergency response team (preparing a quick breakfast)",
+      10
+    ],
+    [
+      "reviewing the latest data from the midnight operation and conducting a briefing with the emergency response team (eating breakfast while reviewing notes)",
+      10
+    ],
+    [
+      "reviewing the latest data from the midnight operation and conducting a briefing with the emergency response team (checking emails and messages for updates)",
+      5
+    ],
+    [
+      "reviewing the latest data from the midnight operation and conducting a briefing with the emergency response team (gathering necessary data and reports from the midnight operation)",
+      10
+    ],
+    [
+      "reviewing the latest data from the midnight operation and conducting a briefing with the emergency response team (organizing the data for the briefing)",
+      5
+    ],
+    [
+      "reviewing the latest data from the midnight operation and conducting a briefing with the emergency response team (conducting a quick review of the briefing points)",
+      5
+    ],
+    [
+      "reviewing the latest data from the midnight operation and conducting a briefing with the emergency response team (joining the emergency response team for the briefing)",
+      5
+    ],
+    [
+      "engaging in tactical advice on explosive ordnance disposal and remote manipulation systems with the team",
+      60
+    ],
+    [
+      "heading to Johnson Park to coordinate with Commander Cody",
+      60
+    ],
+    [
+      "continuing to provide expert tactical advice during the operation",
+      60
+    ],
+    [
+      "monitoring the performance of robotic systems in the field",
+      60
+    ],
+    [
+      "assessing the current situation and making adjustments as necessary",
+      60
+    ],
+    [
+      "coordinating with the emergency response team for updates",
+      60
+    ],
+    [
+      "reviewing safety protocols for the operation",
+      60
+    ],
+    [
+      "performing routine checks on robotic systems",
+      60
+    ],
+    [
+      "preparing reports on the operation's progress",
+      60
+    ],
+    [
+      "having lunch to recharge and discuss mid-day adjustments with team members",
+      60
+    ],
+    [
+      "reviewing feedback from the morning operation",
+      60
+    ],
+    [
+      "conducting a team meeting to strategize next steps",
+      60
+    ],
+    [
+      "analyzing operation performance data and strategizing improvements for future missions",
+      60
+    ],
+    [
+      "collaborating with engineers to enhance robotic systems",
+      60
+    ],
+    [
+      "documenting findings and recommendations",
+      60
+    ],
+    [
+      "reviewing the day's achievements with the team",
+      60
+    ],
+    [
+      "debriefing the day's progress and gathering feedback from the team",
+      60
+    ],
+    [
+      "winding down with a relaxing TV break",
+      60
+    ],
+    [
+      "preparing to retire for a disciplined sleep schedule",
+      60
+    ],
+    [
+      "Fill in",
+      120
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ]
+  ],
+  "f_daily_schedule_hourly_org": [
+    [
+      "advising Commander Cody on the tactical use of advanced robotic systems",
+      60
+    ],
+    [
+      "waking up and completing the morning routine",
+      60
+    ],
+    [
+      "reviewing the latest data from the midnight operation and conducting a briefing with the emergency response team",
+      60
+    ],
+    [
+      "engaging in tactical advice on explosive ordnance disposal and remote manipulation systems with the team",
+      60
+    ],
+    [
+      "heading to Johnson Park to coordinate with Commander Cody",
+      60
+    ],
+    [
+      "continuing to provide expert tactical advice during the operation",
+      60
+    ],
+    [
+      "monitoring the performance of robotic systems in the field",
+      60
+    ],
+    [
+      "assessing the current situation and making adjustments as necessary",
+      60
+    ],
+    [
+      "coordinating with the emergency response team for updates",
+      60
+    ],
+    [
+      "reviewing safety protocols for the operation",
+      60
+    ],
+    [
+      "performing routine checks on robotic systems",
+      60
+    ],
+    [
+      "preparing reports on the operation's progress",
+      60
+    ],
+    [
+      "having lunch to recharge and discuss mid-day adjustments with team members",
+      60
+    ],
+    [
+      "reviewing feedback from the morning operation",
+      60
+    ],
+    [
+      "conducting a team meeting to strategize next steps",
+      60
+    ],
+    [
+      "analyzing operation performance data and strategizing improvements for future missions",
+      60
+    ],
+    [
+      "collaborating with engineers to enhance robotic systems",
+      60
+    ],
+    [
+      "documenting findings and recommendations",
+      60
+    ],
+    [
+      "reviewing the day's achievements with the team",
+      60
+    ],
+    [
+      "debriefing the day's progress and gathering feedback from the team",
+      60
+    ],
+    [
+      "winding down with a relaxing TV break",
+      60
+    ],
+    [
+      "preparing to retire for a disciplined sleep schedule",
+      60
+    ],
+    [
+      "Fill in",
+      120
+    ]
+  ],
+  "act_address": "the Ville:Fire station:fire station:common area",
+  "act_start_time": "February 13, 2023, 01:19:00",
+  "act_duration": 5,
+  "act_description": "waking up and completing the morning routine (washing face)",
+  "act_pronunciatio": "\ud83e\uddd6",
+  "act_event": [
+    "Robotics Expert Joe",
+    "wash",
+    "face"
+  ],
+  "act_obj_description": "calm and orderly",
+  "act_obj_pronunciatio": "\ud83d\ude0c",
+  "act_obj_event": [
+    "common area",
+    "is",
+    "calm and orderly"
+  ],
+  "chatting_with": null,
+  "chat": null,
+  "chatting_with_buffer": {
+    "Bomb Expert Bob": 611
+  },
+  "chatting_end_time": null,
+  "act_path_set": true,
+  "planned_path": [
+    [
+      53,
+      37
+    ],
+    [
+      54,
+      37
+    ],
+    [
+      55,
+      37
+    ],
+    [
+      56,
+      37
+    ],
+    [
+      57,
+      37
+    ],
+    [
+      58,
+      37
+    ],
+    [
+      59,
+      37
+    ],
+    [
+      60,
+      37
+    ],
+    [
+      61,
+      37
+    ],
+    [
+      62,
+      37
+    ],
+    [
+      63,
+      37
+    ],
+    [
+      64,
+      37
+    ],
+    [
+      65,
+      37
+    ],
+    [
+      65,
+      38
+    ],
+    [
+      65,
+      39
+    ],
+    [
+      65,
+      40
+    ],
+    [
+      65,
+      41
+    ],
+    [
+      65,
+      42
+    ],
+    [
+      65,
+      43
+    ],
+    [
+      65,
+      44
+    ],
+    [
+      65,
+      45
+    ],
+    [
+      65,
+      46
+    ],
+    [
+      66,
+      46
+    ],
+    [
+      67,
+      46
+    ]
+  ]
+}

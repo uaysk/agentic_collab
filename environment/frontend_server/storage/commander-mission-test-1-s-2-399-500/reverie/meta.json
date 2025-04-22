@@ -1,0 +1,31 @@
+{
+  "fork_sim_code": "commander-mission-test-1-s-1-199-399",
+  "start_date": "February 13, 2023",
+  "curr_time": "February 13, 2023, 01:23:30",
+  "sec_per_step": 10,
+  "maze_name": "the_ville",
+  "persona_names": [
+    "Isabella Rodriguez",
+    "Maria Lopez",
+    "Klaus Mueller",
+    "Commander Cody",
+    "Bomb Expert Bob",
+    "Fire Control Expert John",
+    "Tactical Operations Expert Tim",
+    "Robotics Expert Joe"
+  ],
+  "step": 501,
+  "block_remaps": {
+    "sector": {
+      "Harvey Oak Supply Store": "Fire station"
+    },
+    "arena": {
+      "supply store": "fire station"
+    },
+    "game_object": {
+      "supply store product shelf": "fire truck",
+      "supply store counter": "common area",
+      "behind the supply store counter": "bunks"
+    }
+  }
+}

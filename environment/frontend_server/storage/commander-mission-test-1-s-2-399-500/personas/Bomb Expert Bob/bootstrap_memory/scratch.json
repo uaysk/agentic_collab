@@ -1,0 +1,478 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "February 13, 2023, 01:23:20",
+  "curr_tile": [
+    46,
+    37
+  ],
+  "daily_plan_req": "1. Wake up and complete the morning routine at 1:00 AM (a brief physical warm-up, review of protocols, and a light breakfast to focus the mind).   2. At 00:00, join Commander Cody at Johnson Park for the initial high-stakes briefing on the suspicious backpack's explosive device and safety measures.   3. Lead a detailed planning session at 3:00 AM with the emergency response team, outlining precise disarmament techniques and contingency protocols.   4. At 6:00 AM, supervise the execution of the neutralization procedure, ensuring every step is meticulously managed to protect lives.   5. Conclude with a debrief and operational review at 8:00 AM, compiling notes and key insights for future high-risk operations.",
+  "name": "Bomb Expert Bob",
+  "first_name": "Bob",
+  "last_name": "Expert",
+  "age": 42,
+  "innate": "meticulous, calm, analytical",
+  "learned": "Bomb Expert Bob is a specialist in explosive ordnance disposal with extensive experience identifying and neutralizing various explosive devices. He works closely with emergency response teams during high-risk situations.",
+  "currently": "Status: Today is Monday, February 13, and at exactly 00:00 AM, Bomb Expert Bob is at Johnson Park advising Commander Cody on the safest techniques and procedures to disarm the explosive device hidden in the suspicious backpack. Having prepared meticulously following the previous day's reflections, Bob carries with him a calm, measured confidence borne from years of high-stakes experience. Although the pressure remains intense, his extensive training in explosive ordnance disposal reassures him that every element of this operation\u2014ensuring safety and protecting lives\u2014will be managed with precision and focus.",
+  "lifestyle": "Bomb Expert Bob maintains a disciplined schedule, going to bed around 9pm and waking up at 1am.",
+  "living_area": "the Ville:Fire station:fire station",
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 67,
+  "importance_ele_n": 28,
+  "thought_count": 5,
+  "daily_req": [
+    "Wake up and complete the morning routine at 1:00 AM",
+    "Join Commander Cody at Johnson Park for the initial high-stakes briefing on the suspicious backpack's explosive device at 00:00 AM",
+    "Lead a detailed planning session with the emergency response team at 3:00 AM, outlining precise disarmament techniques and contingency protocols",
+    "Supervise the execution of the neutralization procedure at 6:00 AM, ensuring every step is meticulously managed to protect lives",
+    "Conclude with a debrief and operational review at 8:00 AM, compiling notes and key insights for future high-risk operations",
+    "Have a light breakfast and review the day's tasks at 9:00 AM",
+    "Conduct follow-up training with the team at 10:00 AM focusing on new techniques and safety measures",
+    "Lunch at 12:00 PM, discussing ongoing projects with other team members",
+    "Prepare and plan for future operational scenarios at 1:00 PM",
+    "Check and maintain equipment and supplies at 3:00 PM",
+    "Attend a debriefing with local law enforcement regarding community safety at 4:00 PM",
+    "Have a debrief with the emergency response team regarding the morning's operation at 5:00 PM",
+    "Finish work and review personal notes on performance and improvements at 6:00 PM",
+    "Return home, have dinner, and spend family time from 7:00 PM to 8:30 PM",
+    "Wind down and prepare for bed at 8:30 PM",
+    "Go to sleep around 9:00 PM"
+  ],
+  "f_daily_schedule": [
+    [
+      "joining Commander Cody at Johnson Park for the initial high-stakes briefing on the suspicious backpack's explosive device (arriving at Johnson Park and assessing the situation)",
+      5
+    ],
+    [
+      "joining Commander Cody at Johnson Park for the initial high-stakes briefing on the suspicious backpack's explosive device (greeting Commander Cody and discussing initial observations)",
+      5
+    ],
+    [
+      "joining Commander Cody at Johnson Park for the initial high-stakes briefing on the suspicious backpack's explosive device (reviewing the location of the suspicious backpack)",
+      5
+    ],
+    [
+      "joining Commander Cody at Johnson Park for the initial high-stakes briefing on the suspicious backpack's explosive device (analyzing the potential risks associated with the device)",
+      5
+    ],
+    [
+      "joining Commander Cody at Johnson Park for the initial high-stakes briefing on the suspicious backpack's explosive device (discussing the safety perimeter with Commander Cody)",
+      5
+    ],
+    [
+      "joining Commander Cody at Johnson Park for the initial high-stakes briefing on the suspicious backpack's explosive device (coordinating with the emergency response team on-site)",
+      5
+    ],
+    [
+      "joining Commander Cody at Johnson Park for the initial high-stakes briefing on the suspicious backpack's explosive device (on the way to outlining the initial approach to the backpack)",
+      0
+    ],
+    [
+      "joining Commander Cody at Johnson Park for the initial high-stakes briefing on the suspicious backpack's explosive device (talking to Robotics Expert Joe about continuously monitoring high-sensitivity sensor feeds for any minute deviations with respect to the suspicious backpack threat, so that immediate perimeter adjustments can be coordinated until Commander Cody confirms complete neutralization of the risk)",
+      27
+    ],
+    [
+      "joining Commander Cody at Johnson Park for the initial high-stakes briefing on the suspicious backpack's explosive device (finalizing the briefing notes for the operation)",
+      3
+    ],
+    [
+      "waking up and completing the morning routine (waking up and turning off the alarm)",
+      5
+    ],
+    [
+      "waking up and completing the morning routine (stretching and doing a brief physical warm-up)",
+      10
+    ],
+    [
+      "waking up and completing the morning routine (brushing teeth and washing face)",
+      10
+    ],
+    [
+      "waking up and completing the morning routine (showering and getting dressed in the operational gear)",
+      15
+    ],
+    [
+      "waking up and completing the morning routine (preparing a light breakfast to focus the mind)",
+      10
+    ],
+    [
+      "waking up and completing the morning routine (reviewing the explosive ordnance disposal protocols)",
+      10
+    ],
+    [
+      "reviewing protocols and preparing mentally for the operation (reviewing the safety protocols for explosive disarmament)",
+      15
+    ],
+    [
+      "reviewing protocols and preparing mentally for the operation (mentally visualizing the disarmament process step-by-step)",
+      15
+    ],
+    [
+      "reviewing protocols and preparing mentally for the operation (checking the equipment and tools needed for the operation)",
+      10
+    ],
+    [
+      "reviewing protocols and preparing mentally for the operation (discussing potential risks and challenges with the team)",
+      10
+    ],
+    [
+      "reviewing protocols and preparing mentally for the operation (practicing breathing exercises to maintain calmness)",
+      5
+    ],
+    [
+      "reviewing protocols and preparing mentally for the operation (finalizing mental notes and strategies for the operation)",
+      5
+    ],
+    [
+      "leading a detailed planning session with the emergency response team, outlining precise disarmament techniques and contingency protocols",
+      60
+    ],
+    [
+      "continuing to refine the disarmament procedures with the team",
+      60
+    ],
+    [
+      "conducting final checks and ensuring all team members are prepared for the operation",
+      60
+    ],
+    [
+      "supervising the execution of the neutralization procedure, ensuring every step is meticulously managed to protect lives",
+      60
+    ],
+    [
+      "monitoring the operation and providing guidance as needed",
+      60
+    ],
+    [
+      "concluding with a debrief and operational review, compiling notes and key insights for future high-risk operations",
+      60
+    ],
+    [
+      "having a light breakfast and reviewing the day's tasks",
+      60
+    ],
+    [
+      "conducting follow-up training with the team focusing on new techniques and safety measures",
+      60
+    ],
+    [
+      "continuing training sessions and addressing team questions",
+      60
+    ],
+    [
+      "having lunch and discussing ongoing projects with other team members",
+      60
+    ],
+    [
+      "preparing and planning for future operational scenarios",
+      60
+    ],
+    [
+      "researching new explosive devices and safety protocols",
+      60
+    ],
+    [
+      "checking and maintaining equipment and supplies",
+      60
+    ],
+    [
+      "attending a debriefing with local law enforcement regarding community safety",
+      60
+    ],
+    [
+      "having a debrief with the emergency response team regarding the morning's operation",
+      60
+    ],
+    [
+      "finishing work and reviewing personal notes on performance and improvements",
+      60
+    ],
+    [
+      "returning home and having dinner with family",
+      60
+    ],
+    [
+      "spending quality time with family",
+      60
+    ],
+    [
+      "winding down and preparing for bed",
+      60
+    ],
+    [
+      "going to sleep",
+      60
+    ],
+    [
+      "idle",
+      60
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ]
+  ],
+  "f_daily_schedule_hourly_org": [
+    [
+      "joining Commander Cody at Johnson Park for the initial high-stakes briefing on the suspicious backpack's explosive device",
+      60
+    ],
+    [
+      "waking up and completing the morning routine",
+      60
+    ],
+    [
+      "reviewing protocols and preparing mentally for the operation",
+      60
+    ],
+    [
+      "leading a detailed planning session with the emergency response team, outlining precise disarmament techniques and contingency protocols",
+      60
+    ],
+    [
+      "continuing to refine the disarmament procedures with the team",
+      60
+    ],
+    [
+      "conducting final checks and ensuring all team members are prepared for the operation",
+      60
+    ],
+    [
+      "supervising the execution of the neutralization procedure, ensuring every step is meticulously managed to protect lives",
+      60
+    ],
+    [
+      "monitoring the operation and providing guidance as needed",
+      60
+    ],
+    [
+      "concluding with a debrief and operational review, compiling notes and key insights for future high-risk operations",
+      60
+    ],
+    [
+      "having a light breakfast and reviewing the day's tasks",
+      60
+    ],
+    [
+      "conducting follow-up training with the team focusing on new techniques and safety measures",
+      60
+    ],
+    [
+      "continuing training sessions and addressing team questions",
+      60
+    ],
+    [
+      "having lunch and discussing ongoing projects with other team members",
+      60
+    ],
+    [
+      "preparing and planning for future operational scenarios",
+      60
+    ],
+    [
+      "researching new explosive devices and safety protocols",
+      60
+    ],
+    [
+      "checking and maintaining equipment and supplies",
+      60
+    ],
+    [
+      "attending a debriefing with local law enforcement regarding community safety",
+      60
+    ],
+    [
+      "having a debrief with the emergency response team regarding the morning's operation",
+      60
+    ],
+    [
+      "finishing work and reviewing personal notes on performance and improvements",
+      60
+    ],
+    [
+      "returning home and having dinner with family",
+      60
+    ],
+    [
+      "spending quality time with family",
+      60
+    ],
+    [
+      "winding down and preparing for bed",
+      60
+    ],
+    [
+      "going to sleep",
+      60
+    ]
+  ],
+  "act_address": "the Ville:Fire station:fire station:bunks",
+  "act_start_time": "February 13, 2023, 01:19:00",
+  "act_duration": 10,
+  "act_description": "waking up and completing the morning routine (brushing teeth and washing face)",
+  "act_pronunciatio": "\ud83d\udebf",
+  "act_event": [
+    "Bomb Expert Bob",
+    "brush",
+    "teeth"
+  ],
+  "act_obj_description": "occupied and slightly unmade",
+  "act_obj_pronunciatio": "\ud83d\udecc",
+  "act_obj_event": [
+    "bunks",
+    "is occupied and slightly unmade",
+    ""
+  ],
+  "chatting_with": null,
+  "chat": null,
+  "chatting_with_buffer": {
+    "Robotics Expert Joe": 611
+  },
+  "chatting_end_time": null,
+  "act_path_set": true,
+  "planned_path": [
+    [
+      48,
+      37
+    ],
+    [
+      49,
+      37
+    ],
+    [
+      50,
+      37
+    ],
+    [
+      51,
+      37
+    ],
+    [
+      52,
+      37
+    ],
+    [
+      53,
+      37
+    ],
+    [
+      54,
+      37
+    ],
+    [
+      55,
+      37
+    ],
+    [
+      56,
+      37
+    ],
+    [
+      57,
+      37
+    ],
+    [
+      58,
+      37
+    ],
+    [
+      59,
+      37
+    ],
+    [
+      60,
+      37
+    ],
+    [
+      61,
+      37
+    ],
+    [
+      62,
+      37
+    ],
+    [
+      63,
+      37
+    ],
+    [
+      64,
+      37
+    ],
+    [
+      65,
+      37
+    ],
+    [
+      65,
+      38
+    ],
+    [
+      65,
+      39
+    ],
+    [
+      65,
+      40
+    ],
+    [
+      65,
+      41
+    ],
+    [
+      65,
+      42
+    ],
+    [
+      65,
+      43
+    ],
+    [
+      66,
+      43
+    ],
+    [
+      67,
+      43
+    ],
+    [
+      67,
+      44
+    ]
+  ]
+}

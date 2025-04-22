@@ -1,0 +1,356 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "February 13, 2023, 01:23:20",
+  "curr_tile": [
+    67,
+    46
+  ],
+  "daily_plan_req": "1. Wake up and complete the morning routine at 1:00 am.   2. Hold a comprehensive tactical briefing with the emergency response teams at 2:00 am to confirm readiness and review contingency deployment protocols.   3. Meet with Commander Cody at 9:00 am for a mid-morning strategy session to refine mission parameters and update risk mitigation measures.   4. Lead a scenario simulation drill during a lunch break at 12:00 pm, emphasizing personnel positioning and coordination for high-risk engagements.   5. Conduct an end-of-day debrief at 5:00 pm to evaluate operational effectiveness and adjust tactics for upcoming emergency scenarios.",
+  "name": "Tactical Operations Expert Tim",
+  "first_name": "Tim",
+  "last_name": "Expert",
+  "age": 40,
+  "innate": "strategic, observant, decisive",
+  "learned": "Tactical Operations Expert Tim is a specialist in tactical operations with extensive experience in coordinating personnel and equipment during high-risk situations. He excels at developing deployment strategies for complex emergency scenarios.",
+  "currently": "Status: On Monday, February 13 at 00:00 AM, Tactical Operations Expert Tim has executed his plan by advising Commander Cody on the operation's deployment strategy at Johnson Park. Tim has clearly outlined the mission parameters, emphasizing the safe retrieval and disarmament of an explosive device discovered in a suspicious backpack. His briefing meticulously details personnel positioning and risk mitigation measures to ensure every team member is not only aware of the tactical plan but also adequately prepared for potential hazards in this time-sensitive scenario. Reflecting on his focused yet cautious approach from the previous day, Tim's current demeanor exudes a blend of alertness and confidence; he acknowledges the pressure of the operation but remains proud of the team's resilience and their precise, coordinated efforts aimed at safeguarding both personnel and mission success.",
+  "lifestyle": "Tactical Operations Expert Tim maintains a disciplined schedule, going to bed around 9pm and waking up at 1am.",
+  "living_area": "the Ville:Fire station:fire station",
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 92,
+  "importance_ele_n": 26,
+  "thought_count": 5,
+  "daily_req": [
+    "Wake up and complete the morning routine at 1:00 am",
+    "Hold a comprehensive tactical briefing with the emergency response teams at 2:00 am to confirm readiness and review contingency deployment protocols",
+    "Review intelligence reports and data at 3:00 am to assess any changes in the operational environment",
+    "Conduct a walk-through of the area at 4:00 am to familiarize team members with the geographical layout",
+    "Rest and prepare mentally for the upcoming day at 5:00 am",
+    "Conduct a review of equipment and resources at 6:00 am to ensure all gear is operational",
+    "Finalize the mission plan at 7:00 am to assimilate any late-breaking changes",
+    "Take time for a brief breakfast at 7:30 am",
+    "Engage in physical training or workout at 8:00 am to maintain fitness for high-stress operations",
+    "Meet with Commander Cody at 9:00 am for a mid-morning strategy session to refine mission parameters and update risk mitigation measures",
+    "Prepare and distribute mission briefings at 10:00 am",
+    "Review and adjust plans based on feedback during the meeting at 11:00 am",
+    "Lead a scenario simulation drill during lunch at 12:00 pm, emphasizing personnel positioning and coordination for high-risk engagements",
+    "Post-simulation review and discuss lessons learned at 1:00 pm",
+    "Engage in strategic planning for upcoming operations at 2:00 pm",
+    "Take brief break to recharge and refresh at 3:00 pm",
+    "Meet with logistics team to ensure all equipment is en route to the operational site at 4:00 pm",
+    "Conduct an end-of-day debrief at 5:00 pm to evaluate operational effectiveness and adjust tactics for upcoming emergency scenarios",
+    "Review operational notes and draft an after-action report from 6:00 pm to 7:00 pm",
+    "Relax and decompress from the day, utilizing personal time for mental recovery from 7:00 pm to 8:30 pm",
+    "Prepare and plan for the next day's activities from 8:30 pm to 9:00 pm",
+    "Wind down and get ready for bed by 9:00 pm"
+  ],
+  "f_daily_schedule": [
+    [
+      "executing the plan by advising Commander Cody on the operation's deployment strategy at Johnson Park (reviewing the operation's deployment strategy)",
+      15
+    ],
+    [
+      "executing the plan by advising Commander Cody on the operation's deployment strategy at Johnson Park (talking to Tactical Operations Expert Tim about integrating the latest intelligence into the deployment strategy by adjusting timelines, realigning bomb and robotics units, and setting up a pre-briefing and rapid 3:00 AM reassessment to ensure every team remains synchronized and on high alert until final deployment details are confirmed)",
+      28
+    ],
+    [
+      "executing the plan by advising Commander Cody on the operation's deployment strategy at Johnson Park (on the way to outlining personnel positioning for the operation)",
+      0
+    ],
+    [
+      "executing the plan by advising Commander Cody on the operation's deployment strategy at Johnson Park (talking to Tactical Operations Expert Tim about integrating his updated fire prevention measures\u2014including enhanced thermal perimeters, rapid suppression protocols, sensor calibrations, and a contingency trigger list\u2014into the deployment strategy via a 3:00 AM checkpoint and a subsequent quick sync to address any emergent adjustments)",
+      45
+    ],
+    [
+      "executing the plan by advising Commander Cody on the operation's deployment strategy at Johnson Park (outlining personnel positioning for the operation)",
+      15
+    ],
+    [
+      "executing the plan by advising Commander Cody on the operation's deployment strategy at Johnson Park (emphasizing risk mitigation measures)",
+      2
+    ],
+    [
+      "waking up and completing the morning routine (waking up and turning off the alarm)",
+      5
+    ],
+    [
+      "waking up and completing the morning routine (stretching and getting out of bed)",
+      5
+    ],
+    [
+      "waking up and completing the morning routine (brushing teeth)",
+      5
+    ],
+    [
+      "holding a comprehensive tactical briefing with the emergency response teams to confirm readiness and review contingency deployment protocols (gathering the emergency response teams for the briefing)",
+      5
+    ],
+    [
+      "holding a comprehensive tactical briefing with the emergency response teams to confirm readiness and review contingency deployment protocols (setting up the briefing room with necessary equipment)",
+      5
+    ],
+    [
+      "holding a comprehensive tactical briefing with the emergency response teams to confirm readiness and review contingency deployment protocols (reviewing the agenda for the tactical briefing)",
+      5
+    ],
+    [
+      "holding a comprehensive tactical briefing with the emergency response teams to confirm readiness and review contingency deployment protocols (introducing the mission parameters to the team)",
+      5
+    ],
+    [
+      "holding a comprehensive tactical briefing with the emergency response teams to confirm readiness and review contingency deployment protocols (discussing the importance of readiness and coordination)",
+      5
+    ],
+    [
+      "holding a comprehensive tactical briefing with the emergency response teams to confirm readiness and review contingency deployment protocols (presenting the intelligence reports relevant to the operation)",
+      5
+    ],
+    [
+      "holding a comprehensive tactical briefing with the emergency response teams to confirm readiness and review contingency deployment protocols (outlining the contingency deployment protocols)",
+      5
+    ],
+    [
+      "holding a comprehensive tactical briefing with the emergency response teams to confirm readiness and review contingency deployment protocols (assigning specific roles and responsibilities to team members)",
+      5
+    ],
+    [
+      "holding a comprehensive tactical briefing with the emergency response teams to confirm readiness and review contingency deployment protocols (addressing questions and concerns from the team)",
+      5
+    ],
+    [
+      "holding a comprehensive tactical briefing with the emergency response teams to confirm readiness and review contingency deployment protocols (conducting a quick recap of the key points discussed)",
+      5
+    ],
+    [
+      "holding a comprehensive tactical briefing with the emergency response teams to confirm readiness and review contingency deployment protocols (emphasizing the importance of communication during the operation)",
+      5
+    ],
+    [
+      "holding a comprehensive tactical briefing with the emergency response teams to confirm readiness and review contingency deployment protocols (concluding the briefing and confirming team readiness)",
+      5
+    ],
+    [
+      "reviewing intelligence reports and data to assess any changes in the operational environment",
+      60
+    ],
+    [
+      "conducting a walk-through of the area to familiarize team members with the geographical layout",
+      60
+    ],
+    [
+      "resting and preparing mentally for the upcoming day",
+      60
+    ],
+    [
+      "conducting a review of equipment and resources to ensure all gear is operational",
+      60
+    ],
+    [
+      "finalizing the mission plan to assimilate any late-breaking changes",
+      60
+    ],
+    [
+      "taking time for a brief breakfast",
+      60
+    ],
+    [
+      "engaging in physical training or workout to maintain fitness for high-stress operations",
+      60
+    ],
+    [
+      "meeting with Commander Cody for a mid-morning strategy session to refine mission parameters and update risk mitigation measures",
+      60
+    ],
+    [
+      "preparing and distributing mission briefings",
+      60
+    ],
+    [
+      "reviewing and adjusting plans based on feedback during the meeting",
+      60
+    ],
+    [
+      "leading a scenario simulation drill during lunch, emphasizing personnel positioning and coordination for high-risk engagements",
+      60
+    ],
+    [
+      "conducting a post-simulation review and discussing lessons learned",
+      60
+    ],
+    [
+      "engaging in strategic planning for upcoming operations",
+      60
+    ],
+    [
+      "taking a brief break to recharge and refresh",
+      60
+    ],
+    [
+      "meeting with the logistics team to ensure all equipment is en route to the operational site",
+      60
+    ],
+    [
+      "conducting an end-of-day debrief to evaluate operational effectiveness and adjust tactics for upcoming emergency scenarios",
+      60
+    ],
+    [
+      "reviewing operational notes and drafting an after-action report",
+      60
+    ],
+    [
+      "relaxing and decompressing from the day, utilizing personal time for mental recovery",
+      60
+    ],
+    [
+      "preparing and planning for the next day's activities",
+      60
+    ],
+    [
+      "winding down and getting ready for bed",
+      60
+    ],
+    [
+      "idle",
+      60
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ]
+  ],
+  "f_daily_schedule_hourly_org": [
+    [
+      "executing the plan by advising Commander Cody on the operation's deployment strategy at Johnson Park",
+      60
+    ],
+    [
+      "waking up and completing the morning routine",
+      60
+    ],
+    [
+      "holding a comprehensive tactical briefing with the emergency response teams to confirm readiness and review contingency deployment protocols",
+      60
+    ],
+    [
+      "reviewing intelligence reports and data to assess any changes in the operational environment",
+      60
+    ],
+    [
+      "conducting a walk-through of the area to familiarize team members with the geographical layout",
+      60
+    ],
+    [
+      "resting and preparing mentally for the upcoming day",
+      60
+    ],
+    [
+      "conducting a review of equipment and resources to ensure all gear is operational",
+      60
+    ],
+    [
+      "finalizing the mission plan to assimilate any late-breaking changes",
+      60
+    ],
+    [
+      "taking time for a brief breakfast",
+      60
+    ],
+    [
+      "engaging in physical training or workout to maintain fitness for high-stress operations",
+      60
+    ],
+    [
+      "meeting with Commander Cody for a mid-morning strategy session to refine mission parameters and update risk mitigation measures",
+      60
+    ],
+    [
+      "preparing and distributing mission briefings",
+      60
+    ],
+    [
+      "reviewing and adjusting plans based on feedback during the meeting",
+      60
+    ],
+    [
+      "leading a scenario simulation drill during lunch, emphasizing personnel positioning and coordination for high-risk engagements",
+      60
+    ],
+    [
+      "conducting a post-simulation review and discussing lessons learned",
+      60
+    ],
+    [
+      "engaging in strategic planning for upcoming operations",
+      60
+    ],
+    [
+      "taking a brief break to recharge and refresh",
+      60
+    ],
+    [
+      "meeting with the logistics team to ensure all equipment is en route to the operational site",
+      60
+    ],
+    [
+      "conducting an end-of-day debrief to evaluate operational effectiveness and adjust tactics for upcoming emergency scenarios",
+      60
+    ],
+    [
+      "reviewing operational notes and drafting an after-action report",
+      60
+    ],
+    [
+      "relaxing and decompressing from the day, utilizing personal time for mental recovery",
+      60
+    ],
+    [
+      "preparing and planning for the next day's activities",
+      60
+    ],
+    [
+      "winding down and getting ready for bed",
+      60
+    ]
+  ],
+  "act_address": "the Ville:Fire station:fire station:common area",
+  "act_start_time": "February 13, 2023, 01:23:00",
+  "act_duration": 45,
+  "act_description": "executing the plan by advising Commander Cody on the operation's deployment strategy at Johnson Park (talking to Tactical Operations Expert Tim about integrating his updated fire prevention measures\u2014including enhanced thermal perimeters, rapid suppression protocols, sensor calibrations, and a contingency trigger list\u2014into the deployment strategy via a 3:00 AM checkpoint and a subsequent quick sync to address any emergent adjustments)",
+  "act_pronunciatio": "\ud83d\udcac",
+  "act_event": [
+    "Tactical Operations Expert Tim",
+    "talk",
+    "Tactical Operations Expert Tim about integrating his updated fire prevention measures into the deployment strategy"
+  ],
+  "act_obj_description": "secured and actively monitored",
+  "act_obj_pronunciatio": "\ud83d\udd12",
+  "act_obj_event": [
+    "common area",
+    "is secured and actively monitored",
+    ""
+  ],
+  "chatting_with": null,
+  "chat": null,
+  "chatting_with_buffer": {
+    "Commander Cody": 473,
+    "Fire Control Expert John": 797
+  },
+  "chatting_end_time": null,
+  "act_path_set": true,
+  "planned_path": []
+}

@@ -1,0 +1,361 @@
+{
+  "vision_r": 8,
+  "att_bandwidth": 8,
+  "retention": 8,
+  "curr_time": "February 13, 2023, 01:23:20",
+  "curr_tile": [
+    26,
+    49
+  ],
+  "daily_plan_req": "1. Wake up and complete the morning routine at 1:00 am.   2. Convene a detailed operations briefing with Bomb Expert Bob, Fire Control Expert John, Tactical Operations Expert Tim, and Robotics Expert Joe at 2:30 am to finalize mission details.   3. Inspect equipment and review situational intelligence at 8:00 am to ensure all resources are mission-ready.   4. Hold an operational debrief over lunch at 12:00 pm to integrate any new intelligence and adjust strategic plans.   5. Conduct a final pre-deployment coordination meeting at 10:00 pm before leading the critical operation at Johnson Park at exactly 00:00 AM.",
+  "name": "Commander Cody",
+  "first_name": "Commander",
+  "last_name": "Cody",
+  "age": 45,
+  "innate": "decisive, strategic, authoritative",
+  "learned": "Commander Cody is an experienced emergency response commander who specializes in coordinating complex operations. He works with a team of experts to handle dangerous situations.",
+  "currently": "Status: On Monday, February 13, Commander Cody stands ready to lead the emergency operation at Johnson Park at exactly 00:00 AM. With his team\u2014Bomb Expert Bob, Fire Control Expert John, Tactical Operations Expert Tim, and Robotics Expert Joe\u2014in tow, he is set to retrieve and neutralize the suspicious explosive device found in a suspicious backpack. Reflecting on the intense challenges of recent days, Commander Cody remains focused and resilient. While he doesn\u2019t show overt emotion under pressure, he draws strength from the precision and expertise of his team, acknowledging the hard-earned pride that comes from facing such high-stakes missions. His determination is unwavering as he prepares for tonight\u2019s critical operation, fully aware of both the weight of responsibility and the vital impact of their work.",
+  "lifestyle": "Commander Cody maintains a disciplined schedule, going to bed around 10pm and waking up at 1am.",
+  "living_area": "the Ville:Fire station:fire station",
+  "concept_forget": 100,
+  "daily_reflection_time": 180,
+  "daily_reflection_size": 5,
+  "overlap_reflect_th": 4,
+  "kw_strg_event_reflect_th": 10,
+  "kw_strg_thought_reflect_th": 9,
+  "recency_w": 1,
+  "relevance_w": 1,
+  "importance_w": 1,
+  "recency_decay": 0.995,
+  "importance_trigger_max": 150,
+  "importance_trigger_curr": 101,
+  "importance_ele_n": 23,
+  "thought_count": 5,
+  "daily_req": [
+    "Wake up and complete the morning routine at 1:00 am",
+    "Review mission brief and mental prepare for the day ahead",
+    "Conduct physical training from 1:30 am to 2:00 am",
+    "Convene a detailed operations briefing with Bomb Expert Bob, Fire Control Expert John, Tactical Operations Expert Tim, and Robotics Expert Joe at 2:30 am to finalize mission details",
+    "Engage in simulation exercises and strategy discussions from 3:00 am to 5:00 am",
+    "Review additional intelligence reports and adjust plans from 5:00 am to 7:00 am",
+    "Inspect equipment and review situational intelligence at 8:00 am to ensure all resources are mission-ready",
+    "Conduct additional training drills from 9:00 am to 11:00 am",
+    "Have lunch at 12:00 pm and hold an operational debrief to integrate any new intelligence and adjust strategic plans",
+    "Continue to monitor the situation and gather intelligence until 3:00 pm",
+    "Review any updates from command center and communicate with local authorities until 5:00 pm",
+    "Prepare personal and team briefings for higher command from 5:00 pm to 7:00 pm",
+    "Have dinner at 7:30 pm and discuss mission mental preparedness with the team",
+    "Conduct a final pre-deployment coordination meeting at 10:00 pm before leading the critical operation at Johnson Park at exactly 00:00 AM"
+  ],
+  "f_daily_schedule": [
+    [
+      "leading the critical operation at Johnson Park (gathering the team for the operation briefing)",
+      5
+    ],
+    [
+      "leading the critical operation at Johnson Park (on the way to reviewing the operation plan with the team)",
+      0
+    ],
+    [
+      "leading the critical operation at Johnson Park (talking to Tactical Operations Expert Tim about integrating the latest intelligence into the deployment strategy by adjusting timelines, realigning bomb and robotics units, and setting up a pre-briefing and rapid 3:00 AM reassessment to ensure every team remains synchronized and on high alert until final deployment details are confirmed)",
+      28
+    ],
+    [
+      "leading the critical operation at Johnson Park (reviewing the operation plan with the team)",
+      5
+    ],
+    [
+      "leading the critical operation at Johnson Park (assigning roles and responsibilities to each team member)",
+      5
+    ],
+    [
+      "leading the critical operation at Johnson Park (discussing the potential risks and safety measures)",
+      5
+    ],
+    [
+      "leading the critical operation at Johnson Park (conducting a final equipment check with Bomb Expert Bob)",
+      5
+    ],
+    [
+      "leading the critical operation at Johnson Park (confirming communication protocols with the team)",
+      5
+    ],
+    [
+      "leading the critical operation at Johnson Park (reviewing the location layout and evacuation routes)",
+      5
+    ],
+    [
+      "leading the critical operation at Johnson Park (distributing necessary tools and equipment to the team)",
+      5
+    ],
+    [
+      "leading the critical operation at Johnson Park (conducting a mental rehearsal of the operation)",
+      5
+    ],
+    [
+      "leading the critical operation at Johnson Park (ensuring all team members are mentally prepared)",
+      5
+    ],
+    [
+      "leading the critical operation at Johnson Park (finalizing the timeline for the operation)",
+      5
+    ],
+    [
+      "leading the critical operation at Johnson Park (on the way to giving a motivational speech to the team)",
+      0
+    ],
+    [
+      "leading the critical operation at Johnson Park (talking to Isabella Rodriguez, directing her to complete boot sequences, sensor calibrations, and multiple integrity checks\u2014including synchronizations with Klaus Mueller and Maria Lopez for the eastern and northeastern perimeters\u2014while coordinating with Bomb Expert Bob, Fire Control Expert John, Tactical Operations Expert Tim, and Robotics Expert Joe, ultimately issuing the final green light for deployment and instructing her to remain vigilant and report any anomalies)",
+      31
+    ],
+    [
+      "waking up and completing the morning routine ()",
+      15
+    ],
+    [
+      "reviewing mission brief and mentally preparing for the day ahead (reviewing the mission objectives)",
+      15
+    ],
+    [
+      "reviewing mission brief and mentally preparing for the day ahead (analyzing the potential risks and challenges)",
+      15
+    ],
+    [
+      "reviewing mission brief and mentally preparing for the day ahead (discussing strategies with the team)",
+      15
+    ],
+    [
+      "reviewing mission brief and mentally preparing for the day ahead (mentally visualizing the operation)",
+      9
+    ],
+    [
+      "conducting physical training",
+      120
+    ],
+    [
+      "convening a detailed operations briefing with Bomb Expert Bob, Fire Control Expert John, Tactical Operations Expert Tim, and Robotics Expert Joe to finalize mission details",
+      60
+    ],
+    [
+      "engaging in simulation exercises and strategy discussions",
+      120
+    ],
+    [
+      "reviewing additional intelligence reports and adjusting plans",
+      60
+    ],
+    [
+      "inspecting equipment and reviewing situational intelligence to ensure all resources are mission-ready",
+      60
+    ],
+    [
+      "conducting additional training drills",
+      120
+    ],
+    [
+      "having lunch and holding an operational debrief to integrate any new intelligence and adjust strategic plans",
+      60
+    ],
+    [
+      "continuing to monitor the situation and gather intelligence",
+      180
+    ],
+    [
+      "reviewing any updates from command center and communicating with local authorities",
+      120
+    ],
+    [
+      "preparing personal and team briefings for higher command",
+      120
+    ],
+    [
+      "having dinner and discussing mission mental preparedness with the team",
+      120
+    ],
+    [
+      "conducting a final pre-deployment coordination meeting",
+      60
+    ],
+    [
+      "idle",
+      60
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ],
+    [
+      "idle",
+      0
+    ]
+  ],
+  "f_daily_schedule_hourly_org": [
+    [
+      "leading the critical operation at Johnson Park",
+      60
+    ],
+    [
+      "waking up and completing the morning routine",
+      60
+    ],
+    [
+      "reviewing mission brief and mentally preparing for the day ahead",
+      60
+    ],
+    [
+      "conducting physical training",
+      120
+    ],
+    [
+      "convening a detailed operations briefing with Bomb Expert Bob, Fire Control Expert John, Tactical Operations Expert Tim, and Robotics Expert Joe to finalize mission details",
+      60
+    ],
+    [
+      "engaging in simulation exercises and strategy discussions",
+      120
+    ],
+    [
+      "reviewing additional intelligence reports and adjusting plans",
+      60
+    ],
+    [
+      "inspecting equipment and reviewing situational intelligence to ensure all resources are mission-ready",
+      60
+    ],
+    [
+      "conducting additional training drills",
+      120
+    ],
+    [
+      "having lunch and holding an operational debrief to integrate any new intelligence and adjust strategic plans",
+      60
+    ],
+    [
+      "continuing to monitor the situation and gather intelligence",
+      180
+    ],
+    [
+      "reviewing any updates from command center and communicating with local authorities",
+      120
+    ],
+    [
+      "preparing personal and team briefings for higher command",
+      120
+    ],
+    [
+      "having dinner and discussing mission mental preparedness with the team",
+      120
+    ],
+    [
+      "conducting a final pre-deployment coordination meeting",
+      60
+    ]
+  ],
+  "act_address": "<persona> Isabella Rodriguez",
+  "act_start_time": "February 13, 2023, 01:17:20",
+  "act_duration": 31,
+  "act_description": "talking to Isabella Rodriguez, directing her to complete boot sequences, sensor calibrations, and multiple integrity checks\u2014including synchronizations with Klaus Mueller and Maria Lopez for the eastern and northeastern perimeters\u2014while coordinating with Bomb Expert Bob, Fire Control Expert John, Tactical Operations Expert Tim, and Robotics Expert Joe, ultimately issuing the final green light for deployment and instructing her to remain vigilant and report any anomalies",
+  "act_pronunciatio": "\ud83d\udcac",
+  "act_event": [
+    "Commander Cody",
+    "chat with",
+    "Isabella Rodriguez"
+  ],
+  "act_obj_description": null,
+  "act_obj_pronunciatio": null,
+  "act_obj_event": [
+    null,
+    null,
+    null
+  ],
+  "chatting_with": "Isabella Rodriguez",
+  "chat": [
+    [
+      "Commander Cody",
+      "Isabella, this is Commander Cody. I noticed you\u2019re completing your boot sequence and sensor calibration. Could you update me on the status of your system calibrations and confirm that you\u2019ve synchronized with Klaus and Maria on the expanded sensor sweeps? I want to ensure we're fully aligned before our next coordination step. Over."
+    ],
+    [
+      "Isabella Rodriguez",
+      "Commander Cody, this is Isabella Rodriguez. I have completed my boot sequence and sensor calibration, and all systems are operating at optimal efficiency. I\u2019ve synchronized with Klaus Mueller and Maria Lopez, and we have expanded our sensor sweeps to cover both the eastern and northeastern perimeters of Johnson Park as directed. My secure communication channels remain fully active. I\u2019m ready for your next instructions, over."
+    ],
+    [
+      "Commander Cody",
+      "Isabella, copy that. Your update confirms that our sensor network is fully operational on the eastern and northeastern perimeters. I\u2019m relaying your status to the rest of the team\u2014Bob, John, Tim, and Joe\u2014so we can integrate these readings into our overall operational picture. Please maintain heightened vigilance and report immediately if any unexpected activity is detected. Stand by for further coordination and pre-deployment checks. Over."
+    ],
+    [
+      "Isabella Rodriguez",
+      "Commander Cody, this is Isabella Rodriguez. I am continuing to monitor the sensor feeds and maintaining secure communications with Klaus Mueller and Maria Lopez. Our expanded sweeps on the eastern and northeastern perimeters remain active, and I am standing by to immediately report any anomalies or further developments. Please advise if there are any additional coordination steps required, over."
+    ],
+    [
+      "Commander Cody",
+      "Isabella, this is Commander Cody. Excellent work on ensuring our eastern and northeastern sweeps are fully operational. I need you to keep a sharp eye on those feeds\u2014if you notice any unusual activity, report it immediately. I\u2019m in the process of cross-checking our sensor data with the rest of the team. Additionally, prepare for a quick integrity check from your end in about 15 minutes. Let\u2019s keep this channel open for any further tweaks until I confirm our final pre-deployment steps, over."
+    ],
+    [
+      "Isabella Rodriguez",
+      "Commander Cody, this is Isabella Rodriguez. I have completed my quick integrity check \u2013 all systems report optimal performance, and the feedback from our expanded sensor sweeps on the eastern and northeastern perimeters remains clear. I will continue monitoring the feeds closely and stand alert for any anomalies. I\u2019m maintaining secure communication with Klaus and Maria and will update you immediately with any changes. I am ready for your final pre-deployment instructions, over."
+    ],
+    [
+      "Commander Cody",
+      "Isabella, this is Commander Cody. Excellent work verifying that your systems are clear and your sensor sweeps are fully active. I've cross-referenced your recent integrity check with our overall operational picture, and everything is in order. Continue to monitor the eastern and northeastern perimeters closely, and keep this channel open. I'll be sending further pre-deployment instructions shortly once I finish coordinating with the rest of the team. Over."
+    ],
+    [
+      "Isabella Rodriguez",
+      "Commander Cody, this is Isabella Rodriguez. I\u2019m maintaining continuous surveillance on the eastern and northeastern perimeters\u2014sensor data remains clear and all systems are operating within optimal parameters. I\u2019ll immediately report any anomalies that occur. Standing by for your next set of instructions, over."
+    ],
+    [
+      "Commander Cody",
+      "Commander Cody: Isabella, this is Commander Cody. Excellent work so far. Now, I need you to perform a rapid re-synchronization with Klaus and Maria\u2014verify that your eastern and northeastern sensor feeds are still locked in tightly. If you observe even the slightest deviation or anomaly in your sensor data, report it immediately. Continue to maintain secure communications as you\u2019ve been doing, and be prepared to relay any updated readings to me in real time. I\u2019m still coordinating with the rest of the team, so keep this channel open. Over."
+    ],
+    [
+      "Isabella Rodriguez",
+      "Commander, this is Isabella Rodriguez. I\u2019ve just re-synchronized with Klaus Mueller and Maria Lopez\u2014the sensor feeds on both the eastern and northeastern perimeters remain secure and locked in. I haven\u2019t detected any anomalies during the re-sync, and all communication channels are fully operational. I\u2019ll notify you immediately if any deviations occur. Standing by for your final deployment instructions, over."
+    ],
+    [
+      "Commander Cody",
+      "Commander Cody: Isabella, this is Commander Cody. I\u2019ve just finished cross-referencing all sensor data with the rest of the team, and our operational picture is absolutely clear. I need you to run one final rapid integrity check on your eastern and northeastern feeds in the next five minutes. Once you confirm that everything remains stable, maintain your vigilance and keep this secure channel active\u2014I\u2019ll be issuing the final go/no-go signal shortly. Remember, if you spot even the slightest anomaly, report it immediately. Over.\n\n[Note: This instruction does not end the conversation. We will keep this channel open for any immediate updates or further instruction exchanges as we approach deployment.]"
+    ],
+    [
+      "Isabella Rodriguez",
+      "Commander Cody, this is Isabella Rodriguez. I\u2019ve just completed the final rapid integrity check: both the eastern and northeastern sensor feeds remain fully stable with no detected anomalies. My channels with Klaus Mueller and Maria Lopez are secure and active. I\u2019m standing by for your final deployment instructions, over."
+    ],
+    [
+      "Commander Cody",
+      "Commander Cody: Isabella, this is Commander Cody. Excellent work\u2014your final integrity check confirms that both the eastern and northeastern sensor feeds are stable. I'm now issuing the final green light: we're go for deployment. I\u2019m coordinating last-minute integration with Bomb Expert Bob, Fire Control Expert John, Tactical Operations Expert Tim, and Robotics Expert Joe. Stand by and maintain your vigilant monitoring; if any unexpected anomaly arises, report it immediately. Our channel remains open for any further updates or tweaks until the operation is fully executed. Over."
+    ],
+    [
+      "Isabella Rodriguez",
+      "Commander Cody, this is Isabella Rodriguez. Copy the green light\u2014I'm initiating deployment protocols now. My sensor feeds on both the eastern and northeastern perimeters remain perfectly stable, and I'm maintaining continuous, secure monitoring. I'll report immediately if any anomaly arises. My channel remains open for any further adjustments or immediate updates. Over."
+    ],
+    [
+      "Commander Cody",
+      "Commander Cody: Isabella, this is Commander Cody. Now that we\u2019re green, maintain your vigilant monitoring and be ready for any immediate adjustments. Keep your sensor feeds locked on the eastern and northeastern sectors and report instantly if anything changes. I\u2019m coordinating final integration with Bob, John, Tim, and Joe \u2013 our channel remains open for real-time updates until the operation completes. Over."
+    ],
+    [
+      "Isabella Rodriguez",
+      "Commander Cody, this is Isabella Rodriguez. I've received the green light and am now fully initiating deployment protocols. My sensor feeds for the eastern and northeastern perimeters are stable, and I'm maintaining continuous vigilance. I will immediately report any anomalies or changes in sensor readings as they occur. I stand ready to receive any further adjustments or updates you may have, over."
+    ]
+  ],
+  "chatting_with_buffer": {
+    "Tactical Operations Expert Tim": 473,
+    "Isabella Rodriguez": 800
+  },
+  "chatting_end_time": "February 13, 2023, 01:49:00",
+  "act_path_set": true,
+  "planned_path": []
+}
