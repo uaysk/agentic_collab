@@ -1,10 +1,10 @@
 import json
 
 from models import (
-  BackendToBrokerMessage,
-  RobotsToBrokerMessage,
-  BrokerToRobotsMessage,
-  BrokerToBackendMessage,
+  BackendToGatewayMessage,
+  RobotsToGatewayMessage,
+  GatewayToRobotsMessage,
+  GatewayToBackendMessage,
   RobotCommand,
   PersonaEnvironment,
   Position,
@@ -39,16 +39,16 @@ class MessageConverter:
   def backend_to_robots(self, mqtt_message: str) -> str:
     """
     Convert backend MQTT message to robot-compatible MQTT format.
-    Converts BackendToBrokerMessage to BrokerToRobotsMessage.
+    Converts BackendToGatewayMessage to GatewayToRobotsMessage.
 
     Args:
-        mqtt_message: JSON string from backend containing BackendToBrokerMessage
+        mqtt_message: JSON string from backend containing BackendToGatewayMessage
 
     Returns:
-        JSON string in robot-compatible format (BrokerToRobotsMessage)
+        JSON string in robot-compatible format (GatewayToRobotsMessage)
     """
     try:
-      backend_msg = BackendToBrokerMessage.model_validate_json(mqtt_message)
+      backend_msg = BackendToGatewayMessage.model_validate_json(mqtt_message)
       commands = []
 
       # Store the current step from backend
@@ -65,7 +65,7 @@ class MessageConverter:
         )
         commands.append(command)
 
-      robot_msg = BrokerToRobotsMessage(commands=commands)
+      robot_msg = GatewayToRobotsMessage(commands=commands)
       return robot_msg.model_dump_json()
 
     except Exception as e:
@@ -74,16 +74,16 @@ class MessageConverter:
   def robots_to_backend(self, mqtt_message: str) -> str:
     """
     Convert robot MQTT message to backend-compatible format.
-    Converts RobotsToBrokerMessage to BrokerToBackendMessage.
+    Converts RobotsToGatewayMessage to GatewayToBackendMessage.
 
     Args:
-        mqtt_message: JSON string from robots containing RobotsToBrokerMessage
+        mqtt_message: JSON string from robots containing RobotsToGatewayMessage
 
     Returns:
-        JSON string in backend-compatible format (BrokerToBackendMessage)
+        JSON string in backend-compatible format (GatewayToBackendMessage)
     """
     try:
-      robots_msg = RobotsToBrokerMessage.model_validate_json(mqtt_message)
+      robots_msg = RobotsToGatewayMessage.model_validate_json(mqtt_message)
       environment = {}
 
       for robot in robots_msg.robots:
@@ -102,7 +102,7 @@ class MessageConverter:
       # Increment step count for the next message to backend
       next_step = self.current_step + 1
 
-      backend_msg = BrokerToBackendMessage(
+      backend_msg = GatewayToBackendMessage(
         environment=environment,
         step=next_step,
       )

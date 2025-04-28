@@ -11,9 +11,9 @@ MQTT_KEEPALIVE = int(os.getenv('MQTT_KEEPALIVE', 60))
 
 # Topics
 # Backend communication
-TOPIC_BACKEND_TO_BROKER = "backend/movement"
-TOPIC_BROKER_TO_BACKEND = "broker/environment"
+TOPIC_BACKEND_MOVEMENT = "backend/movement"
+TOPIC_GATEWAY_ENVIRONMENT = "gateway/environment"
 
-# ROS2 communication
-TOPIC_BROKER_TO_ROBOTS = "broker/movement"
-TOPIC_ROBOTS_TO_BROKER = "robots/environment"
+# Robot server communication
+TOPIC_GATEWAY_MOVEMENT = "gateway/movement"
+TOPIC_ROBOTS_ENVIRONMENT = "robots/environment"

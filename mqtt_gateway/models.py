@@ -3,7 +3,7 @@ from typing import Dict, List, Optional, Tuple
 from pydantic import BaseModel
 
 
-### Backend to Broker ###
+### Backend to Gateway ###
 class PersonaMovement(BaseModel):
   movement: Tuple[int, int]
   pronunciatio: str
@@ -20,12 +20,12 @@ class Movements(BaseModel):
   meta: Meta
 
 
-class BackendToBrokerMessage(BaseModel):
+class BackendToGatewayMessage(BaseModel):
   step: int
   movements: Movements
 
 
-### Broker to Robots ###
+### Gateway to Robots ###
 class Position(BaseModel):
   x: int
   y: int
@@ -36,22 +36,22 @@ class RobotCommand(BaseModel):
   position: Position
 
 
-class BrokerToRobotsMessage(BaseModel):
+class GatewayToRobotsMessage(BaseModel):
   commands: List[RobotCommand]
 
 
-### Robots to Broker ###
+### Robots to Gateway ###
 class RobotEnvironment(BaseModel):
   robot_id: str
   position: Position
   perceived: str
 
 
-class RobotsToBrokerMessage(BaseModel):
+class RobotsToGatewayMessage(BaseModel):
   robots: List[RobotEnvironment]
 
 
-### Broker to Backend ###
+### Gateway to Backend ###
 class PersonaEnvironment(BaseModel):
   x: int
   y: int
@@ -59,6 +59,6 @@ class PersonaEnvironment(BaseModel):
   maze: str
 
 
-class BrokerToBackendMessage(BaseModel):
+class GatewayToBackendMessage(BaseModel):
   environment: Dict[str, PersonaEnvironment]
   step: int
