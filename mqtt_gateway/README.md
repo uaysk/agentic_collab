@@ -10,6 +10,19 @@ This service acts as a message gateway between different parts of the MQTT netwo
    sudo apt-get install mosquitto
    ```
 
+## Installation
+
+1. Create and activate a Python virtual environment (recommended):
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+2. Install the required Python packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
 ## Configuration
 
 The gateway can be configured through environment variables in a `.env` file:
