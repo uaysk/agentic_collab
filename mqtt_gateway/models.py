@@ -8,7 +8,7 @@ class PersonaMovement(BaseModel):
   movement: Tuple[int, int]
   pronunciatio: str
   description: str
-  chat: Optional[List[str]] = None
+  chat: Optional[List[Tuple[str, str]]] = None
 
 
 class Meta(BaseModel):

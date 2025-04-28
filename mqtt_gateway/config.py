@@ -6,7 +6,6 @@ load_dotenv()
 
 # MQTT Configuration
 MQTT_BROKER_PORT = int(os.getenv('MQTT_BROKER_PORT', 1883))
-MQTT_KEEPALIVE = int(os.getenv('MQTT_KEEPALIVE', 60))
 
 # Topics
 # Backend communication

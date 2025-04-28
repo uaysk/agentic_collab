@@ -8,7 +8,6 @@ from typing import Callable, Dict
 
 from mqtt_gateway.config import (
   MQTT_BROKER_PORT,
-  MQTT_KEEPALIVE,
   TOPIC_BACKEND_MOVEMENT,
   TOPIC_GATEWAY_ENVIRONMENT,
   TOPIC_GATEWAY_MOVEMENT,
@@ -53,7 +52,6 @@ class MQTTGateway:
         [
           'mosquitto',
           '-p', str(MQTT_BROKER_PORT),
-          '-k', str(MQTT_KEEPALIVE)
         ],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -61,7 +59,7 @@ class MQTTGateway:
       )
       
       # Wait a moment for the broker to start
-      time.sleep(100)
+      time.sleep(1)
       
       if self._broker_process.poll() is None:  # Process is still running
         self.logger.info(f"MQTT broker started successfully on localhost:{MQTT_BROKER_PORT}")
@@ -96,7 +94,7 @@ class MQTTGateway:
       self._start_broker()
       
       # Connect to MQTT broker
-      self.mqtt_client.connect("localhost", MQTT_BROKER_PORT, MQTT_KEEPALIVE)
+      self.mqtt_client.connect("localhost", MQTT_BROKER_PORT)
       self.mqtt_client.loop_start()
 
       # Subscribe to all relevant topics
