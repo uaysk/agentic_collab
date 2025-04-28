@@ -11,13 +11,9 @@ MQTT_KEEPALIVE = int(os.getenv('MQTT_KEEPALIVE', 60))
 
 # Topics
 # Backend communication
-TOPIC_BACKEND_TO_BROKER = "backend/broker/commands"
-TOPIC_BROKER_TO_BACKEND = "broker/backend/status"
+TOPIC_BACKEND_TO_BROKER = "backend/movement"
+TOPIC_BROKER_TO_BACKEND = "broker/environment"
 
 # ROS2 communication
-TOPIC_BROKER_TO_ROBOTS = "broker/robots/commands"
-TOPIC_ROBOTS_TO_BROKER = "robots/broker/status"
-
-# ROS2 Configuration
-ROS2_NODE_NAME = "mqtt_bridge"
-ROS2_NAMESPACE = os.getenv('ROS2_NAMESPACE', '') 
+TOPIC_BROKER_TO_ROBOTS = "broker/movement"
+TOPIC_ROBOTS_TO_BROKER = "robots/environment"

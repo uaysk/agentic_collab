@@ -1,10 +1,17 @@
 import paho.mqtt.client as mqtt
-import json
 import logging
-from typing import Callable, Dict, Any
+from typing import Callable, Dict
 
-from .config import *
-from .converter import MessageConverter
+from .config import (
+  MQTT_BROKER_HOST,
+  MQTT_BROKER_PORT,
+  MQTT_KEEPALIVE,
+  TOPIC_BACKEND_TO_BROKER,
+  TOPIC_BROKER_TO_BACKEND,
+  TOPIC_BROKER_TO_ROBOTS,
+  TOPIC_ROBOTS_TO_BROKER,
+)
+from .message_converter import MessageConverter
 
 
 class MQTTBroker:
