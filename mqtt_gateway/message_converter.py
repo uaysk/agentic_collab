@@ -1,6 +1,6 @@
 import json
 
-from models import (
+from mqtt_gateway.models import (
   BackendToGatewayMessage,
   RobotsToGatewayMessage,
   GatewayToRobotsMessage,
@@ -9,7 +9,7 @@ from models import (
   PersonaEnvironment,
   Position,
 )
-from coordinate_converter import CoordinateConverter
+from mqtt_gateway.coordinate_converter import CoordinateConverter
 
 
 class MessageConverter:

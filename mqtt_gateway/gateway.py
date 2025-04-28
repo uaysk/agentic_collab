@@ -1,9 +1,12 @@
 import paho.mqtt.client as mqtt
 import logging
+import subprocess
+import signal
+import os
+import time
 from typing import Callable, Dict
 
-from .config import (
-  MQTT_BROKER_HOST,
+from mqtt_gateway.config import (
   MQTT_BROKER_PORT,
   MQTT_KEEPALIVE,
   TOPIC_BACKEND_MOVEMENT,
@@ -11,7 +14,7 @@ from .config import (
   TOPIC_GATEWAY_MOVEMENT,
   TOPIC_ROBOTS_ENVIRONMENT,
 )
-from .message_converter import MessageConverter
+from mqtt_gateway.message_converter import MessageConverter
 
 
 class MQTTGateway:
@@ -34,11 +37,66 @@ class MQTTGateway:
       TOPIC_ROBOTS_ENVIRONMENT: self._handle_robots_message,
     }
 
+    # Broker process
+    self._broker_process = None
+
+  def _start_broker(self):
+    """Start the MQTT broker process."""
+    try:
+      # Check if mosquitto is installed
+      result = subprocess.run(['mosquitto', '-h'], capture_output=True)
+      if result.returncode != 0 and result.returncode != 3:
+        raise Exception("mosquitto is not installed. Please install it first.")
+      
+      # Start mosquitto broker with configured settings
+      self._broker_process = subprocess.Popen(
+        [
+          'mosquitto',
+          '-p', str(MQTT_BROKER_PORT),
+          '-k', str(MQTT_KEEPALIVE)
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        preexec_fn=os.setsid  # Create new process group
+      )
+      
+      # Wait a moment for the broker to start
+      time.sleep(100)
+      
+      if self._broker_process.poll() is None:  # Process is still running
+        self.logger.info(f"MQTT broker started successfully on localhost:{MQTT_BROKER_PORT}")
+      else:
+        raise Exception("Failed to start MQTT broker")
+        
+    except subprocess.CalledProcessError:
+      raise Exception("mosquitto broker is not installed. Please install it first.")
+    except Exception as e:
+      self.logger.error(f"Failed to start MQTT broker: {e}")
+      raise
+
+  def _stop_broker(self):
+    """Stop the MQTT broker process."""
+    if self._broker_process:
+      try:
+        # Send SIGTERM to the process group
+        os.killpg(os.getpgid(self._broker_process.pid), signal.SIGTERM)
+        self._broker_process.wait(timeout=5)
+        self.logger.info("MQTT broker stopped successfully")
+      except subprocess.TimeoutExpired:
+        # If process didn't terminate gracefully, force kill it
+        os.killpg(os.getpgid(self._broker_process.pid), signal.SIGKILL)
+        self.logger.warning("MQTT broker was forcefully terminated")
+      except Exception as e:
+        self.logger.error(f"Error stopping MQTT broker: {e}")
+
   def start(self):
     """Start the MQTT gateway service."""
     try:
+      # Start the broker first
+      self._start_broker()
+      
       # Connect to MQTT broker
-      self.mqtt_client.connect(MQTT_BROKER_HOST, MQTT_BROKER_PORT, MQTT_KEEPALIVE)
+      self.mqtt_client.connect("localhost", MQTT_BROKER_PORT, MQTT_KEEPALIVE)
       self.mqtt_client.loop_start()
 
       # Subscribe to all relevant topics
@@ -50,6 +108,7 @@ class MQTTGateway:
 
     except Exception as e:
       self.logger.error(f"Failed to start MQTT Gateway: {e}")
+      self._stop_broker()  # Clean up broker if gateway fails to start
       raise
 
   def stop(self):
@@ -57,6 +116,9 @@ class MQTTGateway:
     self.mqtt_client.loop_stop()
     self.mqtt_client.disconnect()
     self.logger.info("MQTT Gateway service stopped")
+    
+    # Stop the broker
+    self._stop_broker()
 
   def _on_mqtt_connect(self, client, userdata, flags, rc):
     """Callback for MQTT connection."""
