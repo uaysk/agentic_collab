@@ -134,20 +134,22 @@ class ReverieServer:
     # # Note that the key pairs are *ordered alphabetically*. 
     # # e.g., dict[("Adam Abraham", "Zane Xu")] = "Adam: baba \n Zane:..."
     # self.persona_convo = dict()
-
     # Loading in all personas. 
     init_env_file = f"{sim_folder}/environment/{str(self.step)}.json"
     init_env = json.load(open(init_env_file))
     for persona_name in reverie_meta['persona_names']: 
       persona_folder = f"{sim_folder}/personas/{persona_name}"
+      print(persona_name)
+      print(init_env)
       p_x = init_env[persona_name]["x"]
       p_y = init_env[persona_name]["y"]
       curr_persona = Persona(persona_name, persona_folder)
 
+      # We set the persona's current tile to the tile that it is at in th
+      print(p_y, p_x)
       self.personas[persona_name] = curr_persona
       self.personas_tile[persona_name] = (p_x, p_y)
-      self.maze.tiles[p_y][p_x]["events"].add(curr_persona.scratch
-                                              .get_curr_event_and_desc())
+      self.maze.tiles[p_y][p_x]["events"].add(curr_persona.scratch.get_curr_event_and_desc())
 
     # REVERIE SETTINGS PARAMETERS:  
     # <server_sleep> denotes the amount of time that our while loop rests each
@@ -309,6 +311,7 @@ class ReverieServer:
     """
     # <sim_folder> points to the current simulation folder.
     sim_folder = f"{fs_storage}/{self.sim_code}"
+    print("sim_folder: ", sim_folder)
 
     # When a persona arrives at a game object, we give a unique event
     # to that object. 
@@ -448,44 +451,44 @@ class ReverieServer:
             outfile.write(json.dumps(movements, indent=2))
 
           # Run any plugins that are in the plugin folder.
-          if os.path.exists(f"{sim_folder}/plugins"):
-            plugins = os.listdir(f"{sim_folder}/plugins")
+          # if os.path.exists(f"{sim_folder}/plugins"):
+          #   plugins = os.listdir(f"{sim_folder}/plugins")
 
-            for plugin in plugins:
-              plugin_path = f"{sim_folder}/plugins/{plugin}"
-              prompt_files = os.listdir(f"{plugin_path}/prompt_template")
-              plugin_config_path = f"{plugin_path}/config.json"
+          #   for plugin in plugins:
+          #     plugin_path = f"{sim_folder}/plugins/{plugin}"
+          #     prompt_files = os.listdir(f"{plugin_path}/prompt_template")
+          #     plugin_config_path = f"{plugin_path}/config.json"
 
-              with open(plugin_config_path) as plugin_config_file:
-                plugin_config = json.load(plugin_config_file)
+          #     with open(plugin_config_path) as plugin_config_file:
+          #       plugin_config = json.load(plugin_config_file)
 
-              # Currently only works for 2-agent sims
-              conversation = list(movements["persona"].values())[0]["chat"]
+          #     # Currently only works for 2-agent sims
+          #     conversation = list(movements["persona"].values())[0]["chat"]
 
-              time_condition = self.curr_time.time() >= datetime.datetime.strptime(
-                  plugin_config["run_between"]["start_time"], "%H:%M:%S"
-                ).time() and self.curr_time.time() <= datetime.datetime.strptime(
-                  plugin_config["run_between"]["end_time"], "%H:%M:%S"
-                ).time()
-              conversation_condition = (True if not plugin_config["conversations_only"]
-                else (True if conversation else False))
+          #     time_condition = self.curr_time.time() >= datetime.datetime.strptime(
+          #         plugin_config["run_between"]["start_time"], "%H:%M:%S"
+          #       ).time() and self.curr_time.time() <= datetime.datetime.strptime(
+          #         plugin_config["run_between"]["end_time"], "%H:%M:%S"
+          #       ).time()
+          #     conversation_condition = (True if not plugin_config["conversations_only"]
+          #       else (True if conversation else False))
 
-              if (time_condition and conversation_condition):
-                for prompt_file in prompt_files:
-                  prompt_file_path = (
-                    f"{plugin_path}/prompt_template/{prompt_file}"
-                  )
-                  response = run_plugin(
-                    prompt_file_path,
-                    movements,
-                    self.personas,
-                  )
+          #     if (time_condition and conversation_condition):
+          #       for prompt_file in prompt_files:
+          #         prompt_file_path = (
+          #           f"{plugin_path}/prompt_template/{prompt_file}"
+          #         )
+          #         response = run_plugin(
+          #           prompt_file_path,
+          #           movements,
+          #           self.personas,
+          #         )
 
-                  with open(
-                    f"{plugin_path}/output/{self.step}-{prompt_file}.json",
-                    "w",
-                  ) as outfile:
-                    outfile.write(json.dumps(response, indent=2))
+          #         with open(
+          #           f"{plugin_path}/output/{self.step}-{prompt_file}.json",
+          #           "w",
+          #         ) as outfile:
+          #           outfile.write(json.dumps(response, indent=2))
 
           # If we're running in headless mode, also create the environment file
           # to immediately trigger the next simulation step
