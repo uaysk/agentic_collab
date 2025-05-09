@@ -24,6 +24,7 @@ class MessageConverter:
     robots_origin = (robots_origin_x, robots_origin_y)
     robots_unit_m = 1
 
+    print("Creating coordinate converter")
     self.coordinate_converter = CoordinateConverter(
       source_origin=sim_origin,
       target_origin=robots_origin,
@@ -32,7 +33,9 @@ class MessageConverter:
       reflect_x=False,
       reflect_y=True,
     )
+    print("Creating coordinate visualizer")
     self.coordinate_visualizer = CoordinateVisualizer(
+      converter=self.coordinate_converter,
       background_image_path=os.path.join(
         os.path.dirname(__file__), "img", "sim_space.png")
     )
@@ -65,7 +68,6 @@ class MessageConverter:
         robot_coords = self.coordinate_converter.convert_point(sim_coords)
         logging.info(f"Agent '{persona_id}': Converted sim coords {sim_coords} to robot coords {robot_coords}")
         fig = self.coordinate_visualizer.plot_coordinate_transformation(
-          converter=self.coordinate_converter,
           source_points=[sim_coords],
           # target_points=[robot_coords],
           title=f"Agent '{persona_id}' - Transformation",
@@ -107,7 +109,6 @@ class MessageConverter:
         sim_coords = self.coordinate_converter.inverse_convert_point(robot_coords)
         logging.info(f"Robot '{robot.robot_id}': Converted robot coords {robot_coords} to sim coords {sim_coords}")
         fig = self.coordinate_visualizer.plot_inverse_transformation(
-          converter=self.coordinate_converter,
           target_points=[robot_coords],
           # source_points=[sim_coords],
           title=f"Robot '{robot.robot_id}' - Inverse Transformation",
