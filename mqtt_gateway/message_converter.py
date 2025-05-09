@@ -1,5 +1,6 @@
 import json
-
+import logging
+import os
 from mqtt_gateway.models import (
   BackendToGatewayMessage,
   RobotsToGatewayMessage,
@@ -10,7 +11,7 @@ from mqtt_gateway.models import (
   Position,
 )
 from mqtt_gateway.coordinate_converter import CoordinateConverter
-
+from mqtt_gateway.coordinate_visualizer import CoordinateVisualizer
 
 class MessageConverter:
   def __init__(self):
@@ -30,6 +31,10 @@ class MessageConverter:
       scale_factor=robots_unit_m / sim_unit_m,
       reflect_x=False,
       reflect_y=True,
+    )
+    self.coordinate_visualizer = CoordinateVisualizer(
+      background_image_path=os.path.join(
+        os.path.dirname(__file__), "img", "sim_space.png")
     )
 
     # Initialize state
@@ -58,10 +63,20 @@ class MessageConverter:
         # Convert simulation coordinates to robot coordinates
         sim_coords = movement.movement
         robot_coords = self.coordinate_converter.convert_point(sim_coords)
+        logging.info(f"Agent '{persona_id}': Converted sim coords {sim_coords} to robot coords {robot_coords}")
+        fig = self.coordinate_visualizer.plot_coordinate_transformation(
+          converter=self.coordinate_converter,
+          source_points=[sim_coords],
+          # target_points=[robot_coords],
+          title=f"Agent '{persona_id}' - Transformation",
+        )
+        fig.savefig(os.path.join(os.path.dirname(__file__), "img", f"agent_{persona_id}_transformation.png"))
+        rounded_coords = (round(robot_coords[0]), round(robot_coords[1]))
+        logging.info(f"Rounded robot coords to {rounded_coords}")
 
         command = RobotCommand(
           robot_id=persona_id,
-          position=Position(x=int(robot_coords[0]), y=int(robot_coords[1])),
+          position=Position(x=rounded_coords[0], y=rounded_coords[1]),
         )
         commands.append(command)
 
@@ -90,10 +105,20 @@ class MessageConverter:
         # Convert robot coordinates to simulation coordinates
         robot_coords = (robot.position.x, robot.position.y)
         sim_coords = self.coordinate_converter.inverse_convert_point(robot_coords)
+        logging.info(f"Robot '{robot.robot_id}': Converted robot coords {robot_coords} to sim coords {sim_coords}")
+        fig = self.coordinate_visualizer.plot_inverse_transformation(
+          converter=self.coordinate_converter,
+          target_points=[robot_coords],
+          # source_points=[sim_coords],
+          title=f"Robot '{robot.robot_id}' - Inverse Transformation",
+        )
+        fig.savefig(os.path.join(os.path.dirname(__file__), "img", f"robot_{robot.robot_id}_inverse_transformation.png"))
+        rounded_coords = (round(sim_coords[0]), round(sim_coords[1]))
+        logging.info(f"Rounded sim coords to {rounded_coords}")
 
         persona_env = PersonaEnvironment(
-          x=int(sim_coords[0]),
-          y=int(sim_coords[1]),
+          x=rounded_coords[0],
+          y=rounded_coords[1],
           perceived=robot.perceived,
           maze=self.current_maze,
         )
