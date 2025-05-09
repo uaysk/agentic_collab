@@ -48,14 +48,17 @@ class MQTTGateway:
         raise Exception("mosquitto is not installed. Please install it first.")
       
       # Start mosquitto broker with configured settings
+      config_path = os.path.join(os.path.dirname(__file__), "mosquitto.conf")
+      logging.info(f"Starting mosquitto with config file: {config_path}")
       self._broker_process = subprocess.Popen(
         [
-          'mosquitto',
-          '-p', str(MQTT_BROKER_PORT),
+          "mosquitto",
+          "-c",
+          config_path,
         ],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        preexec_fn=os.setsid  # Create new process group
+        preexec_fn=os.setsid,  # Create new process group
       )
       
       # Wait a moment for the broker to start
@@ -142,10 +145,13 @@ class MQTTGateway:
   def _handle_backend_message(self, message: str):
     """Handle messages from backend."""
     try:
+      print("-----")
+      logging.info(f"Received backend message: {message}")
       if self.converter.validate_message(message):
         # Convert message to robot format
         robot_message = self.converter.backend_to_robots(message)
         # Publish to robot topic
+        logging.info(f"Publishing message to robot topic: {robot_message}")
         self.mqtt_client.publish(TOPIC_GATEWAY_MOVEMENT, robot_message)
         self.logger.info("Converted and forwarded backend message to robot")
     except Exception as e:
@@ -154,10 +160,13 @@ class MQTTGateway:
   def _handle_robots_message(self, message: str):
     """Handle messages from robot."""
     try:
+      print("-----")
+      logging.info(f"Received robot message: {message}")
       if self.converter.validate_message(message):
         # Convert message to backend format
         backend_message = self.converter.robots_to_backend(message)
         # Publish to backend topic
+        logging.info(f"Publishing message to backend topic: {backend_message}")
         self.mqtt_client.publish(TOPIC_GATEWAY_ENVIRONMENT, backend_message)
         self.logger.info("Converted and forwarded robot message to backend")
     except Exception as e:
