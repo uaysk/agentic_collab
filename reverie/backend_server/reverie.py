@@ -29,7 +29,7 @@ import traceback
 from typing import Optional, Dict, Any, Tuple
 
 from global_methods import read_file_to_list, check_if_file_exists, copyanything, freeze
-from utils import maze_assets_loc, fs_storage, fs_temp_storage
+from utils import maze_assets_loc, fs_storage, fs_temp_storage, mqtt_host, mqtt_port, mqtt_client_id, mqtt_movement_topic, mqtt_environment_topic
 from maze import Maze
 from persona.persona import Persona
 from persona.cognitive_modules.converse import load_history_via_whisper
@@ -159,9 +159,13 @@ class ReverieServer:
     self.use_mqtt = use_mqtt
 
     if use_mqtt:
-      self.mqtt_client = ReverieMQTTClient(client_id=f"reverie_backend_{sim_code}")
-      self.movement_topic = f"reverie/{sim_code}/movement"
-      self.environment_topic = f"reverie/{sim_code}/environment"
+      self.mqtt_client = ReverieMQTTClient(
+        broker_host=mqtt_host,
+        broker_port=mqtt_port,
+        client_id=mqtt_client_id
+      )
+      self.movement_topic = mqtt_movement_topic
+      self.environment_topic = mqtt_environment_topic
 
     # SIGNALING THE FRONTEND SERVER:
     # curr_sim_code.json contains the current simulation code, and
@@ -184,6 +188,7 @@ class ReverieServer:
     Handle environment update from frontend via MQTT by dumping the new
     environment info to a file for the server to read.
     """
+    print(f"Handling environment update from MQTT topic {self.environment_topic}: {data}", flush=True)
     try:
       step = data["step"]
       environment = data["environment"]
@@ -309,6 +314,7 @@ class ReverieServer:
         "step": self.step,
         "movements": movements
       }
+      print(f"Publishing movement data to MQTT topic {self.movement_topic}: {data}", flush=True)
       self.mqtt_client.publish(self.movement_topic, data)
 
     # Run any plugins that are in the plugin folder
@@ -364,6 +370,7 @@ class ReverieServer:
           "step": self.step,
           "environment": next_env
         }
+        print(f"Headless mode: Self-publishing environment data to MQTT topic {self.environment_topic}: {data}", flush=True)
         self.mqtt_client.publish(self.environment_topic, data)
       else:
         with open(
@@ -400,17 +407,21 @@ class ReverieServer:
 
     if self.use_mqtt:
       # Subscribe to environment updates from frontend
+      print(f"Subscribing to environment updates from MQTT topic {self.environment_topic}", flush=True)
       self.mqtt_client.subscribe(
         self.environment_topic, 
         lambda data: self._handle_environment_update(data)
       )
 
+    print(f"Starting main loop at step {self.step}", flush=True)
+
     # The main while loop of Reverie.
     while (True): 
       # Done with this iteration if <int_counter> reaches 0.
       if int_counter == 0:
-        if self.use_mqtt:
-          self.mqtt_client.unsubscribe(self.environment_topic)
+        # if self.use_mqtt:
+        #   print(f"Unsubscribing from environment updates from MQTT topic {self.environment_topic}", flush=True)
+        #   self.mqtt_client.unsubscribe(self.environment_topic)
         break
 
       # <curr_env_file> file is the file that our frontend outputs. When the
@@ -479,7 +490,8 @@ class ReverieServer:
 
     # Close MQTT client if using it
     if self.use_mqtt:
-        self.mqtt_client.close()
+      print(f"Closing MQTT client")
+      self.mqtt_client.close()
 
   def start_path_tester_server(self):
     """
@@ -591,6 +603,9 @@ class ReverieServer:
 
     while True:
       if not input_command:
+        if self.use_mqtt:
+          # Wait briefly for any remaining MQTT messages to be processed
+          time.sleep(0.5)
         sim_command = input("Enter option: ")
       else:
         sim_command = input_command

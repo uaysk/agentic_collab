@@ -5,6 +5,7 @@ from typing import List, Dict
 from dataclasses import dataclass
 
 from mqtt_gateway.config import (
+  MQTT_BROKER_HOST,
   MQTT_BROKER_PORT,
   TOPIC_GATEWAY_MOVEMENT,
   TOPIC_ROBOTS_ENVIRONMENT,
@@ -35,7 +36,9 @@ class RobotServer:
     }
 
     # Initialize MQTT client
-    self.mqtt_client = mqtt.Client()
+    self.mqtt_client = mqtt.Client(
+      client_id=f"mock_robots_client",
+    )
     self.mqtt_client.on_connect = self._on_connect
     self.mqtt_client.on_message = self._on_message
 
@@ -65,11 +68,14 @@ class RobotServer:
         else:
           self.logger.warning(f"Received command for unknown robot: {command.robot_id}")
 
+      # After processing all commands, send a single environment update
+      self._publish_environment_update()
+
     except Exception as e:
       self.logger.error(f"Error processing movement command: {e}")
 
   def _execute_movement(self, command: RobotCommand):
-    """Execute the movement command and publish environment update."""
+    """Execute the movement command."""
     try:
       robot = self.robots[command.robot_id]
 
@@ -78,11 +84,20 @@ class RobotServer:
       robot.status = "moving"
       self.logger.info(f"Robot {robot.id} moved to position: {command.position}")
 
+      # Reset robot status after movement
+      robot.status = "idle"
+
+    except Exception as e:
+      self.logger.error(f"Error executing movement: {e}")
+
+  def _publish_environment_update(self):
+    """Publish a single environment update message with all robots' status."""
+    try:
       # Simulate perception for each robot
       robot_envs = []
       for robot in self.robots.values():
         perceived = (
-          f"Robot {robot.id} at position {robot.position} (status: {robot.status})"
+          f"Robot '{robot.id}' is at position {robot.position} (status: {robot.status})"
         )
         robot_env = RobotEnvironment(
           robot_id=robot.id, position=robot.position, perceived=perceived
@@ -94,16 +109,13 @@ class RobotServer:
       self.mqtt_client.publish(TOPIC_ROBOTS_ENVIRONMENT, message.model_dump_json())
       self.logger.info(f"Published environment update for {len(robot_envs)} robots")
 
-      # Reset robot status after movement
-      robot.status = "idle"
-
     except Exception as e:
-      self.logger.error(f"Error executing movement: {e}")
+      self.logger.error(f"Error publishing environment update: {e}")
 
   def start(self):
     """Start the robot server."""
     try:
-      self.mqtt_client.connect("localhost", MQTT_BROKER_PORT)
+      self.mqtt_client.connect(MQTT_BROKER_HOST, MQTT_BROKER_PORT)
       self.mqtt_client.loop_start()
       self.logger.info(f"Robot server started with {len(self.robots)} robots")
     except Exception as e:
