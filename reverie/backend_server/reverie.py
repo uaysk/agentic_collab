@@ -33,6 +33,9 @@ from maze import Maze
 from persona.persona import Persona
 from persona.cognitive_modules.converse import load_history_via_whisper
 from persona.prompt_template.run_gpt_prompt import run_plugin
+from utils import openai_api_key, use_openai, api_model
+from openai import OpenAI
+
 
 current_file = os.path.abspath(__file__)
 
@@ -49,6 +52,34 @@ def trace_calls_and_lines(frame, event, arg):
 ##############################################################################
 #                                  REVERIE                                   #
 ##############################################################################
+config_path = "openai_o_model_config_.json"
+with open(config_path, "r") as f:
+  openai_config = json.load(f) 
+
+client = OpenAI(api_key=openai_config["model-key"])
+if not use_openai:
+  # TODO: The 'openai.api_base' option isn't read in the client API. You will need to pass it when you instantiate the client, e.g. 'OpenAI(base_url=api_base)'
+  # openai.api_base = api_base
+  model = api_model
+
+def ChatGPT_single_request(prompt):
+  print("--- ChatGPT_single_request() ---")
+  print("Prompt:", prompt, flush=True)
+
+  completion = client.chat.completions.create(
+    model=openai_config["model"],
+    messages=[{"role": "user", "content": prompt}],
+  )
+
+  content = completion.choices[0].message.content
+  print("Response content:", content, flush=True)
+
+  if content:
+    content = content.strip("`").removeprefix("json").strip()
+    return content
+  else:
+    print("Error: No message content from LLM.", flush=True)
+    return ""
 
 logfile_name = "log.txt"
 
@@ -428,6 +459,35 @@ class ReverieServer:
                 "maze": self.maze.maze_name,
               }
 
+          ### TODO: converting Commander Cody's chat with advisors to daily req input ###
+          print("DEBUG: Commander Cody's chat:", self.personas["Commander Cody"].scratch.chat)
+          if self.personas["Commander Cody"].scratch.chat:
+            commander = self.personas["Commander Cody"]
+            agent1 = self.personas["Isabella Rodriguez"]
+            agent2 = self.personas["Klaus Mueller"]
+            agent3 = self.personas["Maria Lopez"]
+
+            chat = commander.scratch.chat
+            daily_req_prompt = commander.scratch.get_str_iss() + "\n"
+            daily_req_prompt += f"Today is {commander.scratch.curr_time.strftime('%A %B %d')}. Here is {commander.scratch.name}'s plan today in broad-strokes (with the time of the day. e.g., have a lunch at 12:00 pm, watch TV from 7 to 8 pm).\n\n"
+            daily_req_prompt += f"Here is the chat with advisors:\n"
+            daily_req_prompt += f"{chat}\n"
+            daily_req_prompt += "Use the chat with advisors to generate a list of daily requirements for the day. Follow this format (the list should have 4~6 items but no more):\n"
+            daily_req_prompt += f"1. wake up and complete the morning routine at <time>, 2. ..."
+
+            new_daily_req = ChatGPT_single_request(daily_req_prompt)
+            new_daily_req = new_daily_req.replace('\n', ' ')
+
+            ### TODO: ADDING THE COMMANDER CODY's CHAT WITH ADVISORS TO AGENTS DAILY REQ ###
+            print ("DEBUG new_daily_req:", new_daily_req)
+            agent1.scratch.daily_plan_req = new_daily_req
+            agent2.scratch.daily_plan_req = new_daily_req
+            agent3.scratch.daily_plan_req = new_daily_req
+
+            print("DEBUG: agent1.scratch.daily_plan_req:", agent1.scratch.daily_plan_req)
+            print("DEBUG: agent2.scratch.daily_plan_req:", agent2.scratch.daily_plan_req)
+            print("DEBUG: agent3.scratch.daily_plan_req:", agent3.scratch.daily_plan_req)
+
           # Include the meta information about the current stage in the
           # movements dictionary.
           movements["meta"]["curr_time"] = self.curr_time.strftime(
@@ -447,52 +507,53 @@ class ReverieServer:
           with open(curr_move_file, "w") as outfile:
             outfile.write(json.dumps(movements, indent=2))
 
+          #### COMMENTED OUT FOR NOW BECAUSE WE ARE NOT FOCUSING ON PLUGINS RIGHT NOW ####
           # Run any plugins that are in the plugin folder.
-          if os.path.exists(f"{sim_folder}/plugins"):
-            plugins = os.listdir(f"{sim_folder}/plugins")
+          # if os.path.exists(f"{sim_folder}/plugins"):
+          #   plugins = os.listdir(f"{sim_folder}/plugins")
 
-            for plugin in plugins:
-              plugin_path = f"{sim_folder}/plugins/{plugin}"
-              prompt_files = os.listdir(f"{plugin_path}/prompt_template")
-              plugin_config_path = f"{plugin_path}/config.json"
+          #   for plugin in plugins:
+          #     plugin_path = f"{sim_folder}/plugins/{plugin}"
+          #     prompt_files = os.listdir(f"{plugin_path}/prompt_template")
+          #     plugin_config_path = f"{plugin_path}/config.json"
 
-              with open(plugin_config_path) as plugin_config_file:
-                plugin_config = json.load(plugin_config_file)
+          #     with open(plugin_config_path) as plugin_config_file:
+          #       plugin_config = json.load(plugin_config_file)
 
-              # Currently only works for 2-agent sims
-              conversation = list(movements["persona"].values())[0]["chat"]
+          #     # Currently only works for 2-agent sims
+          #     conversation = list(movements["persona"].values())[0]["chat"]
 
-              time_condition = self.curr_time.time() >= datetime.datetime.strptime(
-                  plugin_config["run_between"]["start_time"], "%H:%M:%S"
-                ).time() and self.curr_time.time() <= datetime.datetime.strptime(
-                  plugin_config["run_between"]["end_time"], "%H:%M:%S"
-                ).time()
-              conversation_condition = (True if not plugin_config["conversations_only"]
-                else (True if conversation else False))
+          #     time_condition = self.curr_time.time() >= datetime.datetime.strptime(
+          #         plugin_config["run_between"]["start_time"], "%H:%M:%S"
+          #       ).time() and self.curr_time.time() <= datetime.datetime.strptime(
+          #         plugin_config["run_between"]["end_time"], "%H:%M:%S"
+          #       ).time()
+          #     conversation_condition = (True if not plugin_config["conversations_only"]
+          #       else (True if conversation else False))
 
-              if (time_condition and conversation_condition):
-                for prompt_file in prompt_files:
-                  prompt_file_path = (
-                    f"{plugin_path}/prompt_template/{prompt_file}"
-                  )
-                  response = run_plugin(
-                    prompt_file_path,
-                    movements,
-                    self.personas,
-                  )
-                  # json_output = json.loads(response)
-                  print(f"""Luigi: {response}""")  
+          #     if (time_condition and conversation_condition):
+          #       for prompt_file in prompt_files:
+          #         prompt_file_path = (
+          #           f"{plugin_path}/prompt_template/{prompt_file}"
+          #         )
+          #         response = run_plugin(
+          #           prompt_file_path,
+          #           movements,
+          #           self.personas,
+          #         )
+          #         # json_output = json.loads(response)
+          #         print(f"""Luigi: {response}""")  
 
-                  # if json_output["Did the search and rescue mission end?"] == True:
-                  #   print("mission success")
-                  #   raise KeyboardInterrupt
+          #         # if json_output["Did the search and rescue mission end?"] == True:
+          #         #   print("mission success")
+          #         #   raise KeyboardInterrupt
 
 
-                  with open(
-                    f"{plugin_path}/output/{self.step}-{prompt_file}.json",
-                    "w",
-                  ) as outfile:
-                    outfile.write(json.dumps(response, indent=2))
+          #         with open(
+          #           f"{plugin_path}/output/{self.step}-{prompt_file}.json",
+          #           "w",
+          #         ) as outfile:
+          #           outfile.write(json.dumps(response, indent=2))
 
           # If we're running in headless mode, also create the environment file
           # to immediately trigger the next simulation step
