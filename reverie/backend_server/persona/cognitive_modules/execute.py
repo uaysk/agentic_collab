@@ -79,7 +79,7 @@ def execute(persona, maze, personas, plan):
       plan = ":".join(plan.split(":")[:-1])
 
       if plan not in maze.address_tiles: 
-        plan = "the Ville:Johnson Park:park:park garden"
+        plan = "the Ville:Botanical gardens:Garden:park garden"
         
       target_tiles = maze.address_tiles[plan]
       target_tiles = random.sample(list(target_tiles), 1)
@@ -91,7 +91,7 @@ def execute(persona, maze, personas, plan):
       # string form. <maze.address_tiles> takes this and returns candidate 
       # coordinates. 
       if plan not in maze.address_tiles: 
-        target_tiles = maze.address_tiles["the Ville:Johnson Park:park:park garden"]
+        target_tiles = maze.address_tiles["the Ville:Botanical gardens:Garden:park garden"]
       else: 
         target_tiles = maze.address_tiles[plan]
 

@@ -165,7 +165,7 @@ For a more detailed explanation see the [original readme](README_origin.md).
 
 For the cost tracking is used the package "[openai-cost-logger](https://github.com/drudilorenzo/openai-cost-logger)". Given the possible high cost of a simulation,  you can set a cost upperbound in the config file to be able to raise an exception and stop the execution when it is reached.
 
-See all the details of your expenses using the notebook "[cost_viz.ipynb](cost_viz.ipynb)."
+See all the details of your expenses using the notebook "[cost_viz.ipynb](utils/cost_viz.ipynb)."
 
 ## Cost Assessment
 
@@ -216,17 +216,6 @@ To use this feature, add a `block_remaps` property to your simulation's `meta.js
   ],
   "step": 0,
   "block_remaps": {
-    "sector": {
-      "Harvey Oak Supply Store": "Fire station"
-    },
-    "arena": {
-      "supply store": "fire station"
-    },
-    "game_object": {
-      "supply store product shelf": "fire truck",
-      "supply store counter": "common area",
-      "behind the supply store counter": "bunks"
-    }
   }
 }
 ```
