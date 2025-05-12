@@ -48,6 +48,19 @@ Since Sam and Sarah need to use different areas, their actions do not conflict.
 So, since Sam and Sarah are going to be in different areas, Sam can continue on to eating his lunch now.
 Answer: 2
 ---
+Context: Jake is Allison's coworker. Jake and Allison discussed the urgency of searching for a missing tool at 2pm, October 25 2022.
+Right now, it is 3:10 pm, October 25, 2022.
+Allison is searching for the tool.
+Jake is searching for the tool in the basement.
+My question: Let's think step by step. Of the following two options, what should Allison do?
+Option 1: Wait on searching for the tool until Jake is done searching for the tool in the basement.
+Option 2: Continue on to searching for the tool now
+
+Reasoning: Jake could certainly use help searching for the tool as they already discussed the urgency of finding it.
+Although waiting for him to finish searching the basement would be good for eliminating the basement as a possible location of the missing tool,
+the urgency of the event means either helping him search the basement or starting to search somewhere else.
+Answer: 2
+---
 Context: {context}
 Right now, it is {curr_time}.
 {init_persona_action_and_place}
