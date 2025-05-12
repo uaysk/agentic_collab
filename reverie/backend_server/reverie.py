@@ -34,6 +34,8 @@ from maze import Maze
 from persona.persona import Persona
 from persona.cognitive_modules.converse import load_history_via_whisper
 from persona.prompt_template.run_gpt_prompt import run_plugin
+from utils import openai_api_key, use_openai, api_model
+from openai import OpenAI
 from mqtt_client import ReverieMQTTClient
 
 current_file = os.path.abspath(__file__)
@@ -293,6 +295,19 @@ class ReverieServer:
     # This will only be used in headless mode
     next_env = {}
 
+    ### Gettitng Perception from Robots via environment file ###
+    with open(f"{sim_folder}/environment/{self.step}.json", "r") as f:
+      environment = json.load(f)
+      print("DEBUG: Robots' environment:", environment)
+
+    # chief_persona = self.personas["Police Chief Rex"]
+    # perception = chief_persona.move(
+    #   environment,
+    #   self.personas,
+    #   self.personas_tile[persona_name],
+    #   self.curr_time,
+    # )
+
     for persona_name, persona in self.personas.items():
       # <next_tile> is a x,y coordinate. e.g., (58, 9)
       # <pronunciatio> is an emoji. e.g., "\ud83d\udca4"
@@ -311,12 +326,47 @@ class ReverieServer:
       movements["persona"][persona_name]["description"] = description
       movements["persona"][persona_name]["chat"] = persona.scratch.chat
 
+      # perceived = environment[persona_name]["perceived"] if "perceived" in environment[persona_name] else None    
+
       if headless:
         next_env[persona_name] = {
           "x": next_tile[0],
           "y": next_tile[1],
           "maze": self.maze.maze_name,
         }
+
+    perceived = list(environment.items())[0][1]["perceived"]
+
+    ### TODO: converting Police Chief Rex's chat with advisors to daily req input ###
+    print("DEBUG: Police Chief Rex Communicating with Robots via memory stream injection:", self.personas["Police Chief Rex"].scratch.chat)
+    commander = self.personas["Police Chief Rex"]
+    agent1 = self.personas["Isabella Rodriguez"]
+    agent2 = self.personas["Klaus Mueller"]
+
+    daily_req_prompt = commander.scratch.get_str_iss() + "\n"
+    daily_req_prompt += (
+        f"Today is {commander.scratch.curr_time.strftime('%A %B %d')}. "
+        f"Here is {commander.scratch.name}'s plan today in broad-strokes "
+        "(with the time of the day. e.g., have a lunch at 12:00 pm, watch TV from 7 to 8 pm).\n\n"
+    )
+    daily_req_prompt += "This is what the robot currently perceives:\n"
+    daily_req_prompt += f"{perceived}\n"
+    daily_req_prompt += (
+        f"Use the {perceived} to generate a list of daily requirements "
+        "for the day. Follow this format (the list should have 4–6 items but no more):\n"
+    )
+    daily_req_prompt += "1. wake up and complete the morning routine at <time>, 2. ..."
+
+    new_daily_req = ChatGPT_single_request(daily_req_prompt)
+    new_daily_req = new_daily_req.replace('\n', ' ')
+
+    ### TODO: ADDING THE COMMANDER CODY'S CHAT WITH ADVISORS TO AGENTS DAILY REQ ###
+    print("DEBUG new_daily_req:", new_daily_req)
+    agent1.scratch.daily_plan_req = new_daily_req
+    agent2.scratch.daily_plan_req = new_daily_req
+
+    print("DEBUG: agent1.scratch.daily_plan_req:", agent1.scratch.daily_plan_req)
+    print("DEBUG: agent2.scratch.daily_plan_req:", agent2.scratch.daily_plan_req)
 
     # Include the meta information about the current stage in the
     # movements dictionary.
