@@ -209,6 +209,9 @@ class Persona:
     elif (self.scratch.curr_time.strftime('%A %B %d')
           != curr_time.strftime('%A %B %d')):
       new_day = "New day"
+    # else:
+    #   new_day = "Same day"
+      
     self.scratch.curr_time = curr_time
 
     # Main cognitive sequence begins here. 
