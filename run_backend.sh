@@ -3,7 +3,7 @@
 BACKEND_SCRIPT_PATH="reverie/backend_server"
 BACKEND_SCRIPT_FILE="reverie.py"
 CONDA_ENV="simulacra"
-CONDA_PATH="/home/${USER}/anaconda3/bin/activate"
+CONDA_PATH="/opt/anaconda3/bin/activate"
 LOGS_PATH="../../logs"
 
 FILE_NAME="run_backend.sh"
