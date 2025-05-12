@@ -10,20 +10,20 @@ from ..print_prompt import print_run_prompts
 
 def create_prompt(prompt_input: dict[str, Any]):
   conversation = prompt_input["conversation"]
-  persona_1_name = prompt_input["persona_1_name"]
-  persona_1_schedule_decomp = prompt_input["person_1_schedule_decomp"]
+  persona_name = prompt_input["persona_name"]
+  persona_schedule = prompt_input["persona_schedule"]
   curr_time = prompt_input["curr_time"]
-  
+
   prompt = f"""
 [Conversation]
 {conversation}
 [End of conversation]
 
-[{persona_1_name}'s Current Daily Plan at the current time {curr_time}]
-{persona_1_schedule_decomp}
-[End of {persona_1_name}'s Current Daily Current Plan]
+[{persona_name}'s current daily plan at {curr_time}]
+{persona_schedule}
+[End of {persona_name}'s current daily plan]
 
-Write down if there is anything from the conversation that {persona_1_name} needs to remember for their planning, from {persona_1_name}'s perspective, in a full sentence. Take the current Daily Plan into account. Start the sentence with {persona_1_name}'s name.
+Write down if there is anything from the conversation that {persona_name} needs to remember for their planning, from {persona_name}'s perspective, in a full sentence. Take their current daily plan into account. Start the sentence with {persona_name}'s name.
 """
   return prompt
 
@@ -38,9 +38,9 @@ def run_gpt_prompt_planning_thought_on_convo(
   def create_prompt_input(persona, all_utterances, test_input=None):
     prompt_input = {
       "conversation": all_utterances,
-      "persona_1_name": persona.scratch.name,
-      "person_1_schedule_decomp": persona.scratch.f_daily_schedule,
-      "curr_time":persona.scratch.curr_time.strftime("%B %d, %Y, %H:%M:%S %p")
+      "persona_name": persona.scratch.name,
+      "persona_schedule": persona.scratch.f_daily_schedule,
+      "curr_time": persona.scratch.curr_time.strftime("%B %d, %Y, %H:%M:%S %p"),
     }
     return prompt_input
 

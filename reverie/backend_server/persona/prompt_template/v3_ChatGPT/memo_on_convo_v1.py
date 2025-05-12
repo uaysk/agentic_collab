@@ -10,7 +10,7 @@ from ..print_prompt import print_run_prompts
 def create_prompt(prompt_input: dict[str, Any]):
   identity_stable_set = prompt_input["identity_stable_set"]
   conversation = prompt_input["conversation"]
-  persona_1_name = prompt_input["persona_1_name"]
+  persona_name = prompt_input["persona_name"]
 
   prompt = f"""
 {identity_stable_set}
@@ -19,8 +19,8 @@ def create_prompt(prompt_input: dict[str, Any]):
 {conversation}
 [End of conversation]
 
-Write down if there is anything from the conversation that {persona_1_name} might have found interesting from {persona_1_name}'s perspective, in a full sentence.
-Start the sentence with {persona_1_name}'s name.
+Write down if there is anything from the conversation that {persona_name} might have found interesting from {persona_name}'s perspective, in a full sentence.
+Start the sentence with {persona_name}'s name.
 """
   return prompt
 
@@ -30,7 +30,7 @@ def run_gpt_prompt_memo_on_convo(persona, all_utt, test_input=None, verbose=Fals
     prompt_input = {
       "identity_stable_set": persona.scratch.get_str_iss(),
       "conversation": all_utt,
-      "persona_1_name": persona.scratch.name,
+      "persona_name": persona.scratch.name,
     }
     return prompt_input
 

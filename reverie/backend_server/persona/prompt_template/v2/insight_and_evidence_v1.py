@@ -11,17 +11,12 @@ from ..print_prompt import print_run_prompts
 def create_prompt(prompt_input: dict[str, Any]):
   statements = prompt_input["statements"]
   num_insights = prompt_input["num_insights"]
-  persona_name = prompt_input["persona_name"]
-  identity_stable_set = prompt_input["identity_stable_set"]
 
   prompt = f"""
 Input:
 {statements}
 
-Here is some basic information about {persona_name}.
-{identity_stable_set}
-
-What {num_insights} high-level insights can {persona_name} can infer from the above statements?
+What {num_insights} high-level insights can you infer from the above statements?
 Cite the statements that support each insight by number.
 (example format: {{
   "insight": "This is a high-level insight",
@@ -43,12 +38,10 @@ class InsightGuidance(BaseModel):
 def run_gpt_prompt_insight_and_guidance(
   persona, statements, num_insights, test_input=None, verbose=False
 ):
-  def create_prompt_input(persona,statements, num_insights, test_input=None):
+  def create_prompt_input(statements, num_insights, test_input=None):
     prompt_input = {
       "statements": statements,
       "num_insights": num_insights,
-      "persona_name": persona.scratch.name,
-      "identity_stable_set": persona.scratch.get_str_iss()
     }
     return prompt_input
 
@@ -80,7 +73,7 @@ def run_gpt_prompt_insight_and_guidance(
     "stop": None,
   }
   prompt_file = get_prompt_file_path(__file__)
-  prompt_input = create_prompt_input(persona,statements, num_insights)
+  prompt_input = create_prompt_input(statements, num_insights)
   prompt = create_prompt(prompt_input)
 
   fail_safe = get_fail_safe()
