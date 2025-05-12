@@ -647,18 +647,25 @@ def _long_term_planning(persona, new_day):
     # if this is the start of generation (so there is no previous day's 
     # daily requirement, or if we are on a new day, we want to create a new
     # set of daily requirements.
+    #Making sure we revise the identity of the persona before creating the daily_req on day 1
+    revise_identity(persona)
+    
     persona.scratch.daily_req = generate_first_daily_plan(persona, 
-                                                          wake_up_hour)
+                                                        wake_up_hour)
   elif new_day == "New day":
     revise_identity(persona)
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - TODO
     # We need to create a new daily_req here...
     persona.scratch.daily_req = persona.scratch.daily_req
+  
+  # elif new_day == "Same day":
+  #   revise_identity(persona)
+  #   persona.scratch.daily_req = persona.scratch.daily_req
 
   # Based on the daily_req, we create an hourly schedule for the persona, 
   # which is a list of todo items with a time duration (in minutes) that 
-  # add up to 24 hours.
+  # add up to 24 hours.  
   persona.scratch.f_daily_schedule = generate_hourly_schedule(persona, 
                                                               wake_up_hour)
   persona.scratch.f_daily_schedule_hourly_org = (persona.scratch

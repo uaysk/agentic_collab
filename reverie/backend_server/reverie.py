@@ -49,6 +49,34 @@ def trace_calls_and_lines(frame, event, arg):
 ##############################################################################
 #                                  REVERIE                                   #
 ##############################################################################
+config_path = "openai_o_model_config_.json"
+with open(config_path, "r") as f:
+  openai_config = json.load(f) 
+
+client = OpenAI(api_key=openai_config["model-key"])
+if not use_openai:
+  # TODO: The 'openai.api_base' option isn't read in the client API. You will need to pass it when you instantiate the client, e.g. 'OpenAI(base_url=api_base)'
+  # openai.api_base = api_base
+  model = api_model
+
+def ChatGPT_single_request(prompt):
+  print("--- ChatGPT_single_request() ---")
+  print("Prompt:", prompt, flush=True)
+
+  completion = client.chat.completions.create(
+    model=openai_config["model"],
+    messages=[{"role": "user", "content": prompt}],
+  )
+
+  content = completion.choices[0].message.content
+  print("Response content:", content, flush=True)
+
+  if content:
+    content = content.strip("`").removeprefix("json").strip()
+    return content
+  else:
+    print("Error: No message content from LLM.", flush=True)
+    return ""
 
 class ReverieServer:
   def __init__(
