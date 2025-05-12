@@ -26,6 +26,8 @@ logs/*
 !environment/frontend_server/storage/base_hide_and_seek/
 !environment/frontend_server/storage/base_search_and_rescue/
 !environment/frontend_server/storage/commander_op/
+!environment/frontend_server/storage/police_chief_rex_op/
+
 
 ####################################
 
