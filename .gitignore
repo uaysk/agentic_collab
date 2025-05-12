@@ -2,6 +2,8 @@
 openai_config.json
 openai_o_model_config_.json
 reverie/backend_server/utils.py
+reverie/backend_server/openai_o_model_config_.json
+openai_o_model_config_.json
 environment/frontend_server/temp_storage/curr_sim_code.json
 reverie/backend_server/openai_o_model_config_.json
 
@@ -9,6 +11,7 @@ environment/frontend_server/storage/*
 environment/frontend_server/temp_storage*/*
 environment/frontend_server/frontend_server/settings/local.py
 environment/frontend_server/static_dirs/*
+!environment/frontend_server/static_dirs/js/
 reverie/backend_server/cost-logs/*
 reverie/backend_server/openai_o_model_config_.json
 openai_o_model_config_.json

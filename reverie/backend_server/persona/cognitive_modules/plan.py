@@ -28,6 +28,7 @@ from persona.prompt_template.run_gpt_prompt import (
     run_gpt_prompt_decide_to_talk,
     run_gpt_prompt_decide_to_react,
     run_gpt_prompt_summarize_conversation,
+    run_gpt_prompt_prioritized_event_reaction
 )
 from persona.prompt_template.gpt_structure import ChatGPT_single_request, get_embedding
 from persona.cognitive_modules.retrieve import new_retrieve
@@ -538,6 +539,92 @@ def revise_identity(persona):
   print ("DEBUG new_daily_req:", new_daily_req)
   persona.scratch.daily_plan_req = new_daily_req
 
+def generate_prioritized_event_reaction(persona, priority):
+  """
+  Given the persona and the potential events to prioritize, call GPT to determine 
+  urgency scores for each event (0-10). Add on .1*importance/poignancy score to act as a tie-breaker,
+  and then order events in descending order. Return the list of prioritized events.
+
+  INPUT:
+    persona: The Persona class instance
+    priority: list of dictionaries containing keys curr_event (Concept node), 
+      events (list of event concept nodes related to the curr_event), thoughts 
+      (list of thought concept nodes that are related)
+  OUTPUT:
+    dict: A reordered list of INPUT dictionaries where first is the most pertinent event to react to, 
+    and it is followed by the less important events
+  EXAMPLE OUTPUT:
+    "[{curr_event: nodeA, events: [nodeB, nodeC,...], thoughts: [nodeD, nodeE,...]},...]"
+  """
+  # Only look at the curr_events part for simplicity
+  curr_events = [item["curr_event"] for item in priority]
+
+  # First, build out priority scores based on GPT function call
+  if debug:
+    print("GNS FUNCTION: <generate_prioritized_event_reaction>")
+  priorities = dict()
+  for node in curr_events:
+    priorities[node.node_id] = run_gpt_prompt_prioritized_event_reaction(persona, node)[
+      0
+    ]
+  if debug:
+    print("DEBUG------Priorities collected------")
+  # Second, extract poignancy scores to act as importance scores (essentially a tie-breaker)
+  importance_out = dict()
+  for count, node in enumerate(curr_events):
+    if isinstance(node.poignancy, int):
+      importance_out[node.node_id] = node.poignancy
+    else:
+      importance_out[node.node_id] = 4
+
+  # Importance weight is used to weight the importance_out of a node much lower than the most recent
+  # GPT call to determine urgency, and it essentially acts as a tiebreaker if there is a tie
+  importance_weight = 0.1
+  # Third, combine to create urgency scores
+  urgency_score = {
+    node_id: importance_weight * float(importance_out.get(node_id, 0))
+    + float(priorities.get(node_id, 0))
+    for node_id in set(importance_out) | set(priorities)
+  }
+  # Use these urgency scores to build an ordered list of output with more urgent events to react to first
+  urgency_scored_dict = {}
+  for event in priority:
+    node_id = event["curr_event"].node_id
+    urgency_scored_dict[node_id] = {
+      "data": event,
+      "urgency_score": urgency_score.get(node_id, 0),
+    }
+  # Print statements for debugging
+  if debug:
+    print("-------DEBUG Prioritize Events--------")
+    for key, value in urgency_scored_dict.items():
+      print(
+        f"Curr_event:{value['data']['curr_event'].spo_summary()}; Urgency Score: {value['urgency_score']}"
+      )
+    print("-------End of DEBUG Priotize Events------")
+
+  # urgency sorting function
+  def urgency_sort_key(event):
+    node_id = event[
+      "curr_event"
+    ].node_id  # get the node_id for the given event for indexing purposes
+    return (
+      urgency_scored_dict[node_id][
+        "urgency_score"
+      ],  # order by urgency score with a random tiebreaker
+      random.uniform(0, 1),  # Tie-breaker
+    )
+
+  # higher urgency scores listed first with a random tie breaker (if the urgency value and weighted importance_out are still equal)
+  sorted_list = sorted(
+    [value["data"] for value in urgency_scored_dict.values()],
+    key=urgency_sort_key,
+    reverse=True,
+  )
+  if debug:
+    # Print out the events for debugging to see data structures and sorted event list
+    print(f"Sorted List output for gen_prioritized_reaction: {sorted_list}")
+  return sorted_list
 
 def _long_term_planning(persona, new_day): 
   """
@@ -766,16 +853,22 @@ def _choose_retrieved(persona, retrieved):
     if (":" not in curr_event.subject 
         and curr_event.subject != persona.name): 
       priority += [rel_ctx]
-  if priority: 
-    return random.choice(priority)
+
+  if priority and len(priority) > 1:
+    return generate_prioritized_event_reaction(persona, priority)[0] 
+  elif priority and len(priority) == 1:
+    return priority[0]
 
   # Skip idle. 
   for event_desc, rel_ctx in retrieved.items(): 
     curr_event = rel_ctx["curr_event"]
     if "is idle" not in event_desc: 
       priority += [rel_ctx]
-  if priority: 
-    return random.choice(priority)
+
+  if priority and len(priority) > 1:
+    return generate_prioritized_event_reaction(persona, priority)[0]
+  elif priority and len(priority) == 1:
+    return priority[0]
   return None
 
 
@@ -1051,7 +1144,8 @@ def plan(persona, maze, personas, new_day, retrieved):
   #                     ["events"] = [<ConceptNode>, ...], 
   #                     ["thoughts"] = [<ConceptNode>, ...]}
   focused_event = False
-  if retrieved.keys(): 
+  if retrieved.keys():
+     # Will later add more logic to consider multiple events
     focused_event = _choose_retrieved(persona, retrieved)
   
   # Step 2: Once we choose an event, we need to determine whether the

@@ -32,6 +32,7 @@ Note: If you change the environment name from `simulacra`, you'll need to update
 
 Create a file called `openai_config.json` in the root directory.
 
+OpenAI example:
 ```json
 {
     "client": "openai", 
@@ -44,6 +45,32 @@ Create a file called `openai_config.json` in the root directory.
     "embeddings-client": "openai",
     "embeddings": "text-embedding-3-small",
     "embeddings-key": "<API-KEY>",
+    "embeddings-costs": {
+        "input": 0.02,
+        "output": 0.0
+    },
+    "experiment-name": "simulacra-test",
+    "cost-upperbound": 10
+}
+```
+
+Azure example:
+```json
+{
+    "client": "azure", 
+    "model": "gpt-4o-mini",
+    "model-key": "<API-KEY>",
+    "model-endpoint": "<MODEL-ENDPOINT>",
+    "model-api-version": "<API-VERSION>",
+    "model-costs": {
+        "input":  0.5,
+        "output": 1.5
+    },
+    "embeddings-client": "azure",
+    "embeddings": "text-embedding-3-small",
+    "embeddings-key": "<API-KEY>",
+    "embeddings-endpoint": "<EMBEDDING-MODEL-ENDPOINT>",
+    "embeddings-api-version": "<API-VERSION>",
     "embeddings-costs": {
         "input": 0.02,
         "output": 0.0
@@ -138,7 +165,7 @@ For a more detailed explanation see the [original readme](README_origin.md).
 
 For the cost tracking is used the package "[openai-cost-logger](https://github.com/drudilorenzo/openai-cost-logger)". Given the possible high cost of a simulation,  you can set a cost upperbound in the config file to be able to raise an exception and stop the execution when it is reached.
 
-See all the details of your expenses using the notebook "[cost_viz.ipynb](cost_viz.ipynb)."
+See all the details of your expenses using the notebook "[cost_viz.ipynb](utils/cost_viz.ipynb)."
 
 ## Cost Assessment
 
