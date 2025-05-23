@@ -10,16 +10,5 @@
     "Klaus Mueller"    
   ],
   "step": 0,
-  "block_remaps": {
-    "sector": {
-  
-    },
-    "arena": {
-
-
-    },
-    "game_object": {
-     
-    }
-  }
+  "block_remaps": {}
 }
