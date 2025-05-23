@@ -165,19 +165,17 @@ class ReverieServer:
     # # Note that the key pairs are *ordered alphabetically*. 
     # # e.g., dict[("Adam Abraham", "Zane Xu")] = "Adam: baba \n Zane:..."
     # self.persona_convo = dict()
-    # Loading in all personas. 
+
+    # Loading in all personas.
     init_env_file = f"{sim_folder}/environment/{str(self.step)}.json"
     init_env = json.load(open(init_env_file))
     for persona_name in reverie_meta['persona_names']: 
       persona_folder = f"{sim_folder}/personas/{persona_name}"
-      print(persona_name)
-      print(init_env)
       p_x = init_env[persona_name]["x"]
       p_y = init_env[persona_name]["y"]
       curr_persona = Persona(persona_name, persona_folder)
 
       # We set the persona's current tile to the tile that it is at in th
-      print(p_y, p_x)
       self.personas[persona_name] = curr_persona
       self.personas_tile[persona_name] = (p_x, p_y)
       self.maze.tiles[p_y][p_x]["events"].add(curr_persona.scratch.get_curr_event_and_desc())
@@ -295,19 +293,7 @@ class ReverieServer:
     # This will only be used in headless mode
     next_env = {}
 
-    ### Gettitng Perception from Robots via environment file ###
     sim_folder = f"{fs_storage}/{self.sim_code}"
-    with open(f"{sim_folder}/environment/{self.step}.json", "r") as f:
-      environment = json.load(f)
-      print("DEBUG: Robots' environment:", environment)
-
-    # chief_persona = self.personas["Police Chief Rex"]
-    # perception = chief_persona.move(
-    #   environment,
-    #   self.personas,
-    #   self.personas_tile[persona_name],
-    #   self.curr_time,
-    # )
 
     for persona_name, persona in self.personas.items():
       # <next_tile> is a x,y coordinate. e.g., (58, 9)
@@ -335,37 +321,6 @@ class ReverieServer:
           "y": next_tile[1],
           "maze": self.maze.maze_name,
         }
-
-    perceived = list(environment.items())[0][1]["perceived"]
-
-    ### TODO: converting Police Chief Rex's chat with advisors to daily req input ###
-    print("DEBUG: Police Chief Rex Communicating with Robot via memory stream injection:", self.personas["Police Chief Rex"].scratch.chat)
-    commander = self.personas["Police Chief Rex"]
-    agent1 = self.personas["Isabella Rodriguez"]
-    # agent2 = self.personas["Klaus Mueller"]
-
-    daily_req_prompt = commander.scratch.get_str_iss() + "\n"
-    daily_req_prompt += (
-        f"Today is {commander.scratch.curr_time.strftime('%A %B %d')}. "
-        f"Here is {commander.scratch.name}'s plan today in broad-strokes "
-        "(with the time of the day. e.g., have a lunch at 12:00 pm, watch TV from 7 to 8 pm).\n\n"
-    )
-    daily_req_prompt += "This is what the robot currently perceives:\n"
-    daily_req_prompt += f"{perceived}\n"
-    daily_req_prompt += (
-        "Use the observations to generate a list of tasks that the robot should complete "
-        ". Follow this format (the list should have 4-6 items but no more):\n"
-    )
-    daily_req_prompt += "1. Search the room for notable objects, 2. ..."
-
-    new_daily_req = ChatGPT_single_request(daily_req_prompt)
-    new_daily_req = new_daily_req.replace('\n', ' ')
-
-    ### TODO: ADDING THE COMMANDER CODY'S CHAT WITH ADVISORS TO AGENTS DAILY REQ ###
-    print("DEBUG new_daily_req:", new_daily_req)
-    agent1.scratch.daily_plan_req = new_daily_req
-
-    print("DEBUG: agent1.scratch.daily_plan_req:", agent1.scratch.daily_plan_req)
 
     # Include the meta information about the current stage in the
     # movements dictionary.
