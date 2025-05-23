@@ -51,7 +51,7 @@ def trace_calls_and_lines(frame, event, arg):
 ##############################################################################
 #                                  REVERIE                                   #
 ##############################################################################
-config_path = "openai_o_model_config_.json"
+config_path = "openai_config.json"
 with open(config_path, "r") as f:
   openai_config = json.load(f) 
 

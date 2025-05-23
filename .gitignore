@@ -1,8 +1,6 @@
 # OpenAI API key
 openai_config.json
-openai_o_model_config_.json
 reverie/backend_server/utils.py
-reverie/backend_server/openai_o_model_config_.json
 environment/frontend_server/temp_storage/curr_sim_code.json
 
 environment/frontend_server/storage/*
