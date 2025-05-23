@@ -167,8 +167,8 @@ class Scratch:
       # If we have a bootstrap file, load that here. 
       scratch_load = json.load(open(f_saved))
 
-      self.noncognitive = scratch_load["noncognitive"]
-      self.nonembodied = scratch_load["nonembodied"]
+      self.noncognitive = scratch_load.get("noncognitive", False)
+      self.nonembodied = scratch_load.get("nonembodied", False)
 
       self.vision_r = scratch_load["vision_r"]
       self.att_bandwidth = scratch_load["att_bandwidth"]
