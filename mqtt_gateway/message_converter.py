@@ -11,7 +11,30 @@ from mqtt_gateway.models import (
   Position,
 )
 from mqtt_gateway.coordinate_converter import CoordinateConverter
-from mqtt_gateway.coordinate_visualizer import CoordinateVisualizer
+# from mqtt_gateway.coordinate_visualizer import 
+
+# Mock client mappings
+# agent_to_robot_mapping = {
+#   "Robot 1": "Robot 1",
+#   "Robot 2": "Robot 2",
+#   "Robot 3": "Robot 3",
+# }
+# robot_to_agent_mapping = {
+#   "Robot 1": "Robot 1",
+#   "Robot 2": "Robot 2",
+#   "Robot 3": "Robot 3",
+# }
+
+# Real mapping
+agent_to_robot_mapping = {
+  "Isabella Rodriguez": "robot_1",
+  "Police Chief Rex": "non_robot",
+}
+
+robot_to_agent_mapping = {
+  "robot_1": "Isabella Rodriguez",
+  "non_robot": "Police Chief Rex",
+}
 
 class MessageConverter:
   def __init__(self):
@@ -33,12 +56,12 @@ class MessageConverter:
       reflect_x=False,
       reflect_y=True,
     )
-    print("Creating coordinate visualizer")
-    self.coordinate_visualizer = CoordinateVisualizer(
-      converter=self.coordinate_converter,
-      background_image_path=os.path.join(
-        os.path.dirname(__file__), "img", "sim_space.png")
-    )
+    # print("Creating coordinate visualizer")
+    # self.coordinate_visualizer = CoordinateVisualizer(
+    #   converter=self.coordinate_converter,
+    #   background_image_path=os.path.join(
+    #     os.path.dirname(__file__), "img", "sim_space.png")
+    # )
 
     # Initialize state
     self.current_maze = "the_ville"
@@ -67,17 +90,18 @@ class MessageConverter:
         sim_coords = movement.movement
         robot_coords = self.coordinate_converter.convert_point(sim_coords)
         logging.info(f"Agent '{persona_id}': Converted sim coords {sim_coords} to robot coords {robot_coords}")
-        fig = self.coordinate_visualizer.plot_coordinate_transformation(
-          source_points=[sim_coords],
-          # target_points=[robot_coords],
-          title=f"Agent '{persona_id}' - Transformation",
-        )
-        fig.savefig(os.path.join(os.path.dirname(__file__), "img", f"agent_{persona_id}_transformation.png"))
+        # fig = self.coordinate_visualizer.plot_coordinate_transformation(
+        #   source_points=[sim_coords],
+        #   # target_points=[robot_coords],
+        #   title=f"Agent '{persona_id}' - Transformation",
+        # )
+        # fig.savefig(os.path.join(os.path.dirname(__file__), "img", f"agent_{persona_id}_transformation.png"))
         rounded_coords = (round(robot_coords[0]), round(robot_coords[1]))
         logging.info(f"Rounded robot coords to {rounded_coords}")
+        robot_id = agent_to_robot_mapping[persona_id]
 
         command = RobotCommand(
-          robot_id=persona_id,
+          robot_id=robot_id,
           position=Position(x=rounded_coords[0], y=rounded_coords[1]),
         )
         commands.append(command)
@@ -108,14 +132,15 @@ class MessageConverter:
         robot_coords = (robot.position.x, robot.position.y)
         sim_coords = self.coordinate_converter.inverse_convert_point(robot_coords)
         logging.info(f"Robot '{robot.robot_id}': Converted robot coords {robot_coords} to sim coords {sim_coords}")
-        fig = self.coordinate_visualizer.plot_inverse_transformation(
-          target_points=[robot_coords],
-          # source_points=[sim_coords],
-          title=f"Robot '{robot.robot_id}' - Inverse Transformation",
-        )
-        fig.savefig(os.path.join(os.path.dirname(__file__), "img", f"robot_{robot.robot_id}_inverse_transformation.png"))
+        # fig = self.coordinate_visualizer.plot_inverse_transformation(
+        #   target_points=[robot_coords],
+        #   # source_points=[sim_coords],
+        #   title=f"Robot '{robot.robot_id}' - Inverse Transformation",
+        # )
+        # fig.savefig(os.path.join(os.path.dirname(__file__), "img", f"robot_{robot.robot_id}_inverse_transformation.png"))
         rounded_coords = (round(sim_coords[0]), round(sim_coords[1]))
         logging.info(f"Rounded sim coords to {rounded_coords}")
+        agent_name = robot_to_agent_mapping[robot.robot_id]
 
         persona_env = PersonaEnvironment(
           x=rounded_coords[0],
@@ -123,7 +148,7 @@ class MessageConverter:
           perceived=robot.perceived,
           maze=self.current_maze,
         )
-        environment[robot.robot_id] = persona_env
+        environment[agent_name] = persona_env
 
       # Increment step count for the next message to backend
       next_step = self.current_step + 1
