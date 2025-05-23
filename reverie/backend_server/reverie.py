@@ -29,14 +29,20 @@ import traceback
 from typing import Optional, Dict, Any, Tuple
 
 from global_methods import read_file_to_list, check_if_file_exists, copyanything, freeze
-from utils import maze_assets_loc, fs_storage, fs_temp_storage, mqtt_host, mqtt_port, mqtt_client_id, mqtt_movement_topic, mqtt_environment_topic
+from utils import (
+  maze_assets_loc,
+  fs_storage,
+  fs_temp_storage,
+  mqtt_host,
+  mqtt_port,
+  mqtt_client_id,
+  mqtt_movement_topic,
+  mqtt_environment_topic,
+)
 from maze import Maze
 from persona.persona import Persona
 from persona.cognitive_modules.converse import load_history_via_whisper
 # from persona.prompt_template.run_gpt_prompt import run_plugin
-from utils import use_openai, api_model
-from openai import OpenAI
-from mqtt_client import ReverieMQTTClient
 
 current_file = os.path.abspath(__file__)
 
@@ -51,34 +57,6 @@ def trace_calls_and_lines(frame, event, arg):
 ##############################################################################
 #                                  REVERIE                                   #
 ##############################################################################
-config_path = "openai_config.json"
-with open(config_path, "r") as f:
-  openai_config = json.load(f) 
-
-client = OpenAI(api_key=openai_config["model-key"])
-if not use_openai:
-  # TODO: The 'openai.api_base' option isn't read in the client API. You will need to pass it when you instantiate the client, e.g. 'OpenAI(base_url=api_base)'
-  # openai.api_base = api_base
-  model = api_model
-
-def ChatGPT_single_request(prompt):
-  print("--- ChatGPT_single_request() ---")
-  print("Prompt:", prompt, flush=True)
-
-  completion = client.chat.completions.create(
-    model=openai_config["model"],
-    messages=[{"role": "user", "content": prompt}],
-  )
-
-  content = completion.choices[0].message.content
-  print("Response content:", content, flush=True)
-
-  if content:
-    content = content.strip("`").removeprefix("json").strip()
-    return content
-  else:
-    print("Error: No message content from LLM.", flush=True)
-    return ""
 
 class ReverieServer:
   def __init__(
@@ -175,7 +153,7 @@ class ReverieServer:
       p_y = init_env[persona_name]["y"]
       curr_persona = Persona(persona_name, persona_folder)
 
-      # We set the persona's current tile to the tile that it is at in th
+      # We set the persona's current tile to the tile that it is in the environment file
       self.personas[persona_name] = curr_persona
       self.personas_tile[persona_name] = (p_x, p_y)
       self.maze.tiles[p_y][p_x]["events"].add(curr_persona.scratch.get_curr_event_and_desc())
@@ -189,6 +167,8 @@ class ReverieServer:
     self.use_mqtt = use_mqtt
 
     if use_mqtt:
+      from mqtt_client import ReverieMQTTClient
+
       self.mqtt_client = ReverieMQTTClient(
         broker_host=mqtt_host,
         broker_port=mqtt_port,
@@ -882,10 +862,13 @@ if __name__ == "__main__":
   target = input(target_prompt).strip()
 
   # Ask if user wants to use MQTT
-  use_mqtt_prompt = "Would you like to use MQTT for communication? (y/n): "
-  use_mqtt = input(use_mqtt_prompt).strip().lower() == 'y'
+  use_mqtt_prompt = "Would you like to use MQTT for communication? (y/N): "
+  use_mqtt_input = input(use_mqtt_prompt).strip().lower()
+  use_mqtt = use_mqtt_input == 'y' or use_mqtt_input == 'yes'
   if use_mqtt:
     print("MQTT mode enabled")
+  else:
+    print("MQTT mode disabled")
 
   rs = ReverieServer(origin, target, use_mqtt=use_mqtt)
   rs.open_server()
