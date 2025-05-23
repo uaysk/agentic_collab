@@ -1,6 +1,6 @@
 # MQTT Gateway
 
-This service acts as a message gateway between different parts of the MQTT network, handling message transformation and routing. It also manages its own MQTT broker.
+This service acts as a message gateway between different parts of an MQTT network, handling message transformation and routing. It also manages its own MQTT broker. Use this if you need a sophistocated gateway between your simulation/backend server and your client/frontend server.
 
 ## Prerequisites
 
@@ -51,16 +51,16 @@ The gateway handles the following topics:
 - `backend/movement` - Messages from backend to gateway
 - `gateway/environment` - Messages from gateway to backend
 
-### Robot Server Communication
-- `gateway/movement` - Messages from gateway to robots
-- `robots/environment` - Messages from robots to gateway
+### Frontend Communication
+- `gateway/movement` - Messages from gateway to frontend
+- `frontend/environment` - Messages from frontend to gateway
 
 ## Message Flow
 
 1. Backend sends messages to `backend/movement`
 2. Gateway receives messages, transforms them, and publishes to `gateway/movement`
-3. Robots receive messages, execute the movements, then respond on `robots/environment`
-4. Gateway receives robot responses, transforms them, and publishes to `gateway/environment`
+3. Frontend receive messages, execute the movements, then responds on `frontend/environment`
+4. Gateway receives frontend responses, transforms them, and publishes to `gateway/environment`
 5. Backend receives transformed messages on `gateway/environment`
 
 ## Troubleshooting

@@ -203,16 +203,16 @@ def main():
     sim_unit_ft = 0.784
     sim_unit_m = sim_unit_ft / 3.281
 
-    robots_origin_x = 61.1 / sim_unit_ft
-    robots_origin_y = 11.36 / sim_unit_ft
-    robots_origin = (robots_origin_x, robots_origin_y)
-    robots_unit_m = 1
+    frontend_origin_x = 61.1 / sim_unit_ft
+    frontend_origin_y = 11.36 / sim_unit_ft
+    frontend_origin = (frontend_origin_x, frontend_origin_y)
+    frontend_unit_m = 1
 
     converter = CoordinateConverter(
         source_origin=sim_origin,
-        target_origin=robots_origin,
+        target_origin=frontend_origin,
         rotation_angle=90,
-        scale_factor=robots_unit_m / sim_unit_m,
+        scale_factor=frontend_unit_m / sim_unit_m,
         reflect_x=False,
         reflect_y=True,
     )
@@ -223,9 +223,9 @@ def main():
     # Plot the transformation
     fig = visualizer.plot_coordinate_transformation(
         source_points=sim_points,
-        title="Simulation to Robot Space Transformation"
+        title="Simulation to Frontend Space Transformation"
     )
-    fig.savefig(os.path.join(os.path.dirname(__file__), "img", "sim_to_robot_transformation.png"))
+    fig.savefig(os.path.join(os.path.dirname(__file__), "img", "sim_to_frontend_transformation.png"))
 
     # Show the plot
     # plt.show()

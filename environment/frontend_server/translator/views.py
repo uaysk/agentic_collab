@@ -11,7 +11,8 @@ from django.http import HttpResponse, JsonResponse
 from global_methods import check_if_file_exists, find_filenames
 from django.conf import settings
 
-from .mqtt_client import DjangoMQTTClient, MQTTConnectionError
+if settings.USE_MQTT:
+  from .mqtt_client import DjangoMQTTClient, MQTTConnectionError
 from django.views.decorators.csrf import csrf_exempt
 
 fs_temp_storage = "temp_storage"

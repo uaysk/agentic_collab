@@ -13,6 +13,6 @@ MQTT_BROKER_PORT = int(os.getenv('MQTT_BROKER_PORT', 1883))
 TOPIC_BACKEND_MOVEMENT = "backend/movement"
 TOPIC_GATEWAY_ENVIRONMENT = "gateway/environment"
 
-# Robot server communication
+# Frontend communication
 TOPIC_GATEWAY_MOVEMENT = "gateway/movement"
-TOPIC_ROBOTS_ENVIRONMENT = "robots/environment"
+TOPIC_FRONTEND_ENVIRONMENT = "frontend/environment"

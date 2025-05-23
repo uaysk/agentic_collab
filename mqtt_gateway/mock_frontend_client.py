@@ -8,14 +8,14 @@ from mqtt_gateway.config import (
   MQTT_BROKER_HOST,
   MQTT_BROKER_PORT,
   TOPIC_GATEWAY_MOVEMENT,
-  TOPIC_ROBOTS_ENVIRONMENT,
+  TOPIC_FRONTEND_ENVIRONMENT,
 )
 from mqtt_gateway.models import (
-  GatewayToRobotsMessage,
-  RobotCommand,
+  GatewayToFrontendMessage,
+  AgentCommand,
   Position,
-  RobotEnvironment,
-  RobotsToGatewayMessage,
+  AgentEnvironment,
+  FrontendToGatewayMessage,
 )
 
 
@@ -37,7 +37,7 @@ class RobotServer:
 
     # Initialize MQTT client
     self.mqtt_client = mqtt.Client(
-      client_id=f"mock_robots_client",
+      client_id="mock_robots_client",
     )
     self.mqtt_client.on_connect = self._on_connect
     self.mqtt_client.on_message = self._on_message
@@ -59,14 +59,14 @@ class RobotServer:
     """Callback for MQTT messages."""
     try:
       # Parse the message using Pydantic model
-      message = GatewayToRobotsMessage.model_validate_json(msg.payload)
+      message = GatewayToFrontendMessage.model_validate_json(msg.payload)
 
       # Process each command
       for command in message.commands:
-        if command.robot_id in self.robots:
+        if command.agent_id in self.robots:
           self._execute_movement(command)
         else:
-          self.logger.warning(f"Received command for unknown robot: {command.robot_id}")
+          self.logger.warning(f"Received command for unknown agent: {command.agent_id}")
 
       # After processing all commands, send a single environment update
       self._publish_environment_update()
@@ -74,15 +74,15 @@ class RobotServer:
     except Exception as e:
       self.logger.error(f"Error processing movement command: {e}")
 
-  def _execute_movement(self, command: RobotCommand):
+  def _execute_movement(self, command: AgentCommand):
     """Execute the movement command."""
     try:
-      robot = self.robots[command.robot_id]
+      robot = self.robots[command.agent_id]
 
       # Update robot position
       robot.position = command.position
       robot.status = "moving"
-      self.logger.info(f"Robot {robot.id} moved to position: {command.position}")
+      self.logger.info(f"Agent {robot.id} moved to position: {robot.position}")
 
       # Reset robot status after movement
       robot.status = "idle"
@@ -94,20 +94,20 @@ class RobotServer:
     """Publish a single environment update message with all robots' status."""
     try:
       # Simulate perception for each robot
-      robot_envs = []
+      agent_envs = []
       for robot in self.robots.values():
         perceived = (
-          f"Robot '{robot.id}' is at position {robot.position} (status: {robot.status})"
+          f"Agent '{robot.id}' is at position {robot.position} (status: {robot.status})"
         )
-        robot_env = RobotEnvironment(
-          robot_id=robot.id, position=robot.position, perceived=perceived
+        agent_env = AgentEnvironment(
+          agent_id=robot.id, position=robot.position, perceived=perceived
         )
-        robot_envs.append(robot_env)
+        agent_envs.append(agent_env)
 
       # Create and publish message with all robots' status
-      message = RobotsToGatewayMessage(robots=robot_envs)
-      self.mqtt_client.publish(TOPIC_ROBOTS_ENVIRONMENT, message.model_dump_json())
-      self.logger.info(f"Published environment update for {len(robot_envs)} robots")
+      message = FrontendToGatewayMessage(agents=agent_envs)
+      self.mqtt_client.publish(TOPIC_FRONTEND_ENVIRONMENT, message.model_dump_json())
+      self.logger.info(f"Published environment update for {len(agent_envs)} agents")
 
     except Exception as e:
       self.logger.error(f"Error publishing environment update: {e}")

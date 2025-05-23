@@ -25,30 +25,30 @@ class BackendToGatewayMessage(BaseModel):
   movements: Movements
 
 
-### Gateway to Robots ###
+### Gateway to Frontend ###
 class Position(BaseModel):
   x: int
   y: int
 
 
-class RobotCommand(BaseModel):
-  robot_id: str
+class AgentCommand(BaseModel):
+  agent_id: str
   position: Position
 
 
-class GatewayToRobotsMessage(BaseModel):
-  commands: List[RobotCommand]
+class GatewayToFrontendMessage(BaseModel):
+  commands: List[AgentCommand]
 
 
-### Robots to Gateway ###
-class RobotEnvironment(BaseModel):
-  robot_id: str
+### Frontend to Gateway ###
+class AgentEnvironment(BaseModel):
+  agent_id: str
   position: Position
   perceived: str
 
 
-class RobotsToGatewayMessage(BaseModel):
-  robots: List[RobotEnvironment]
+class FrontendToGatewayMessage(BaseModel):
+  agents: List[AgentEnvironment]
 
 
 ### Gateway to Backend ###

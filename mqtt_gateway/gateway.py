@@ -11,7 +11,7 @@ from mqtt_gateway.config import (
   TOPIC_BACKEND_MOVEMENT,
   TOPIC_GATEWAY_ENVIRONMENT,
   TOPIC_GATEWAY_MOVEMENT,
-  TOPIC_ROBOTS_ENVIRONMENT,
+  TOPIC_FRONTEND_ENVIRONMENT,
 )
 from mqtt_gateway.message_converter import MessageConverter
 
@@ -33,7 +33,7 @@ class MQTTGateway:
     # Message handlers
     self._message_handlers: Dict[str, Callable] = {
       TOPIC_BACKEND_MOVEMENT: self._handle_backend_message,
-      TOPIC_ROBOTS_ENVIRONMENT: self._handle_robots_message,
+      TOPIC_FRONTEND_ENVIRONMENT: self._handle_frontend_message,
     }
 
     # Broker process
@@ -148,29 +148,29 @@ class MQTTGateway:
       print("-----")
       logging.info(f"Received backend message: {message}")
       if self.converter.validate_message(message):
-        # Convert message to robot format
-        robot_message = self.converter.backend_to_robots(message)
-        # Publish to robot topic
-        logging.info(f"Publishing message to robot topic: {robot_message}")
-        self.mqtt_client.publish(TOPIC_GATEWAY_MOVEMENT, robot_message)
-        self.logger.info("Converted and forwarded backend message to robot")
+        # Convert message to frontend format
+        frontend_message = self.converter.backend_to_frontend(message)
+        # Publish to frontend topic
+        logging.info(f"Publishing message to frontend topic: {frontend_message}")
+        self.mqtt_client.publish(TOPIC_GATEWAY_MOVEMENT, frontend_message)
+        self.logger.info("Converted and forwarded backend message to frontend")
     except Exception as e:
       self.logger.error(f"Error handling backend message: {e}")
 
-  def _handle_robots_message(self, message: str):
-    """Handle messages from robot."""
+  def _handle_frontend_message(self, message: str):
+    """Handle messages from frontend."""
     try:
       print("-----")
-      logging.info(f"Received robot message: {message}")
+      logging.info(f"Received frontend message: {message}")
       if self.converter.validate_message(message):
         # Convert message to backend format
-        backend_message = self.converter.robots_to_backend(message)
+        backend_message = self.converter.frontend_to_backend(message)
         # Publish to backend topic
         logging.info(f"Publishing message to backend topic: {backend_message}")
         self.mqtt_client.publish(TOPIC_GATEWAY_ENVIRONMENT, backend_message)
-        self.logger.info("Converted and forwarded robot message to backend")
+        self.logger.info("Converted and forwarded frontend message to backend")
     except Exception as e:
-      self.logger.error(f"Error handling robot message: {e}")
+      self.logger.error(f"Error handling frontend message: {e}")
 
 
 def main():
