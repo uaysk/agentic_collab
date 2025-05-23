@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 import traceback
 from typing import Any
+
 from utils import debug
 from ..common import openai_config, get_prompt_file_path
 from ..gpt_structure import safe_generate_structured_response
@@ -20,7 +21,7 @@ def create_prompt(prompt_input: dict[str, Any]):
   {identity_stable_set}
 
   In general, {lifestyle}
-  Today is {curr_date}. Describe {persona_name}'s plan for the whole day, from morning 'til night, in broad-strokes. Include the time of the day. e.g., "powered on and await tasks at {wake_up_hour}"
+  Today is {curr_date}. Describe {persona_name}'s plan for the whole day, from morning 'til night, in broad-strokes. Include the time of the day. e.g., "powered on and awaiting tasks at {wake_up_hour}"
   Note that since {persona_name} is noncognitive, they should be scheduled to await tasks all day until it is time for them to be powered off.
     """
   else:
@@ -32,6 +33,7 @@ def create_prompt(prompt_input: dict[str, Any]):
   """
 
   return prompt
+
 
 class DailyPlan(BaseModel):
   daily_plan: list[str]
@@ -61,7 +63,7 @@ def run_gpt_prompt_daily_plan(persona, wake_up_hour, test_input=None, verbose=Fa
       "curr_date": persona.scratch.get_str_curr_date_str(),
       "persona_name": persona.scratch.get_str_firstname(),
       "wake_up_hour": f"{str(wake_up_hour)}:00",
-      "noncognitive": persona.scratch.is_noncognitive()
+      "noncognitive": persona.scratch.is_noncognitive(),
     }
 
     return prompt_input
