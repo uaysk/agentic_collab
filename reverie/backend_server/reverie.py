@@ -33,8 +33,8 @@ from utils import maze_assets_loc, fs_storage, fs_temp_storage, mqtt_host, mqtt_
 from maze import Maze
 from persona.persona import Persona
 from persona.cognitive_modules.converse import load_history_via_whisper
-from persona.prompt_template.run_gpt_prompt import run_plugin
-from utils import openai_api_key, use_openai, api_model
+# from persona.prompt_template.run_gpt_prompt import run_plugin
+from utils import use_openai, api_model
 from openai import OpenAI
 from mqtt_client import ReverieMQTTClient
 
@@ -296,6 +296,7 @@ class ReverieServer:
     next_env = {}
 
     ### Gettitng Perception from Robots via environment file ###
+    sim_folder = f"{fs_storage}/{self.sim_code}"
     with open(f"{sim_folder}/environment/{self.step}.json", "r") as f:
       environment = json.load(f)
       print("DEBUG: Robots' environment:", environment)
@@ -338,10 +339,10 @@ class ReverieServer:
     perceived = list(environment.items())[0][1]["perceived"]
 
     ### TODO: converting Police Chief Rex's chat with advisors to daily req input ###
-    print("DEBUG: Police Chief Rex Communicating with Robots via memory stream injection:", self.personas["Police Chief Rex"].scratch.chat)
+    print("DEBUG: Police Chief Rex Communicating with Robot via memory stream injection:", self.personas["Police Chief Rex"].scratch.chat)
     commander = self.personas["Police Chief Rex"]
     agent1 = self.personas["Isabella Rodriguez"]
-    agent2 = self.personas["Klaus Mueller"]
+    # agent2 = self.personas["Klaus Mueller"]
 
     daily_req_prompt = commander.scratch.get_str_iss() + "\n"
     daily_req_prompt += (
@@ -352,10 +353,10 @@ class ReverieServer:
     daily_req_prompt += "This is what the robot currently perceives:\n"
     daily_req_prompt += f"{perceived}\n"
     daily_req_prompt += (
-        f"Use the {perceived} to generate a list of daily requirements "
-        "for the day. Follow this format (the list should have 4–6 items but no more):\n"
+        "Use the observations to generate a list of tasks that the robot should complete "
+        ". Follow this format (the list should have 4-6 items but no more):\n"
     )
-    daily_req_prompt += "1. wake up and complete the morning routine at <time>, 2. ..."
+    daily_req_prompt += "1. Search the room for notable objects, 2. ..."
 
     new_daily_req = ChatGPT_single_request(daily_req_prompt)
     new_daily_req = new_daily_req.replace('\n', ' ')
@@ -363,10 +364,8 @@ class ReverieServer:
     ### TODO: ADDING THE COMMANDER CODY'S CHAT WITH ADVISORS TO AGENTS DAILY REQ ###
     print("DEBUG new_daily_req:", new_daily_req)
     agent1.scratch.daily_plan_req = new_daily_req
-    agent2.scratch.daily_plan_req = new_daily_req
 
     print("DEBUG: agent1.scratch.daily_plan_req:", agent1.scratch.daily_plan_req)
-    print("DEBUG: agent2.scratch.daily_plan_req:", agent2.scratch.daily_plan_req)
 
     # Include the meta information about the current stage in the
     # movements dictionary.
@@ -380,7 +379,6 @@ class ReverieServer:
     # {"persona": {"Maria Lopez": {"movement": [58, 9]}},
     #  "persona": {"Klaus Mueller": {"movement": [38, 12]}},
     #  "meta": {curr_time: <datetime>}}
-    sim_folder = f"{fs_storage}/{self.sim_code}"
     movementFolder = f"{sim_folder}/movement"
     if not os.path.exists(movementFolder):
       os.mkdir(movementFolder)
@@ -570,7 +568,7 @@ class ReverieServer:
 
     # Close MQTT client if using it
     if self.use_mqtt:
-      print(f"Closing MQTT client")
+      print("Closing MQTT client")
       self.mqtt_client.close()
 
   def start_path_tester_server(self):
