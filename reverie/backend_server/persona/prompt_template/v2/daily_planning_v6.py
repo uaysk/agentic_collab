@@ -1,14 +1,10 @@
 from pydantic import BaseModel
 import traceback
 from typing import Any
-import datetime
 from utils import debug
 from ..common import openai_config, get_prompt_file_path
 from ..gpt_structure import safe_generate_structured_response
 from ..print_prompt import print_run_prompts
-from persona.prompt_template.gpt_structure import ChatGPT_single_request, get_embedding
-from persona.cognitive_modules.retrieve import new_retrieve
-import time 
 
 
 def create_prompt(prompt_input: dict[str, Any]):
@@ -19,30 +15,27 @@ def create_prompt(prompt_input: dict[str, Any]):
   wake_up_hour = prompt_input["wake_up_hour"]
   noncognitive = prompt_input["noncognitive"]
 
-  prompt = None
   if noncognitive:
     prompt = f"""
-{identity_stable_set}
+  {identity_stable_set}
 
   In general, {lifestyle}
   Today is {curr_date}. Describe {persona_name}'s plan for the whole day, from morning 'til night, in broad-strokes. Include the time of the day. e.g., "powered on and await tasks at {wake_up_hour}"
   Note that since {persona_name} is noncognitive, they should be scheduled to await tasks all day until it is time for them to be powered off.
     """
-    return prompt
   else:
-      prompt = f"""
+    prompt = f"""
   {identity_stable_set}
 
   In general, {lifestyle}
   Today is {curr_date}. Describe {persona_name}'s plan for the whole day, from morning 'til night, in broad-strokes. Include the time of the day. e.g., "wake up and complete their morning routine at {wake_up_hour}", "have lunch at 12:00 pm", "watch TV from 7 to 8 pm".
   """
+
   return prompt
 
 class DailyPlan(BaseModel):
   daily_plan: list[str]
 
-def temp_sleep(seconds=0.1):
-  time.sleep(seconds)
 
 def run_gpt_prompt_daily_plan(persona, wake_up_hour, test_input=None, verbose=False):
   """

@@ -27,8 +27,6 @@ logs/*
 !environment/frontend_server/storage/base_search_and_rescue/
 !environment/frontend_server/storage/commander_op/
 !environment/frontend_server/storage/police_chief_rex_op/
-
-
 ####################################
 
 # Ignore all environment and movement files except the starting environment file
@@ -123,7 +121,7 @@ celerybeat-schedule
 .env
 
 # virtualenv
-venv/
+**/*venv*/
 ENV/
 
 # Spyder project settings

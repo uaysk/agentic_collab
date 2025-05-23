@@ -14,7 +14,7 @@ from utils import openai_api_key, use_openai, api_model
 from openai_cost_logger import DEFAULT_LOG_PATH
 from persona.prompt_template.openai_logger_singleton import OpenAICostLogger_Singleton
 
-config_path = Path("../../openai_o_model_config_.json")
+config_path = Path("../../openai_config_.json")
 with open(config_path, "r") as f:
   openai_config = json.load(f) 
 
@@ -285,7 +285,7 @@ def ChatGPT_safe_generate_response(
   prompt,
   example_output="",
   special_instruction="",
-  repeat=1,
+  repeat=3,
   fail_safe_response="error",
   func_validate=None,
   func_clean_up=None,
@@ -310,14 +310,10 @@ def ChatGPT_safe_generate_response(
         if not chatgpt_response:
           raise Exception("Error: No valid response from LLM.")
         curr_gpt_response = chatgpt_response.strip()
-        print(f"""Mario: {curr_gpt_response=}""")
-
         if example_output or special_instruction:
           end_index = curr_gpt_response.rfind("}") + 1
           curr_gpt_response = curr_gpt_response[:end_index]
           curr_gpt_response = json.loads(curr_gpt_response)["output"]
-          print(f"""{curr_gpt_response=}
-                #################################""")
 
         if func_validate(curr_gpt_response, prompt=prompt):
           return curr_gpt_response, func_clean_up(curr_gpt_response, prompt=prompt)
