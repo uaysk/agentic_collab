@@ -652,8 +652,8 @@ def _long_term_planning(persona, new_day):
     
     persona.scratch.daily_req = generate_first_daily_plan(persona, 
                                                           wake_up_hour)
-  elif new_day == "New day": #we only revise the personas of cognitive agents
-    if not persona.scratch.is_noncognitive(): revise_identity(persona)
+  elif new_day == "New day" and not persona.scratch.is_noncognitive():
+    revise_identity(persona)
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - TODO
     # We need to create a new daily_req here...
@@ -665,7 +665,7 @@ def _long_term_planning(persona, new_day):
 
   # Based on the daily_req, we create an hourly schedule for the persona, 
   # which is a list of todo items with a time duration (in minutes) that 
-  # add up to 24 hours.  
+  # add up to 24 hours.
   persona.scratch.f_daily_schedule = generate_hourly_schedule(persona, 
                                                               wake_up_hour)
   persona.scratch.f_daily_schedule_hourly_org = (persona.scratch

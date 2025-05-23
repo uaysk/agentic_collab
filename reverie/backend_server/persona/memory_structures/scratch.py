@@ -15,8 +15,8 @@ from global_methods import check_if_file_exists
 class Scratch: 
   def __init__(self, f_saved):
     # non-cognitive vs. non-embodied Type persona
-    self.noncognitive = None # If True, then no planning, reflecting, deep thinking
-    self.nonembodied = None # If True, then no physical location
+    self.noncognitive = False # If True, then no planning, reflecting, deep thinking
+    self.nonembodied = False # If True, then no physical location
 
     # PERSONA HYPERPARAMETERS
     # <vision_r> denotes the number of tiles that the persona can see around 

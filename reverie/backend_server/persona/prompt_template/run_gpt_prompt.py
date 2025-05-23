@@ -200,6 +200,7 @@ def run_plugin(
     "presence_penalty": 0,
     "stop": None,
   }
+
   return output, [output, prompt, gpt_param, prompt_input, fail_safe]
 
 

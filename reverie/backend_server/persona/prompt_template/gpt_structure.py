@@ -14,7 +14,7 @@ from utils import openai_api_key, use_openai, api_model
 from openai_cost_logger import DEFAULT_LOG_PATH
 from persona.prompt_template.openai_logger_singleton import OpenAICostLogger_Singleton
 
-config_path = Path("../../openai_config_.json")
+config_path = Path("../../openai_config.json")
 with open(config_path, "r") as f:
   openai_config = json.load(f) 
 
