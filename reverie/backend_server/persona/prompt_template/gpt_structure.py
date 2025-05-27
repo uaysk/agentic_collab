@@ -316,7 +316,7 @@ def ChatGPT_safe_generate_response(
           curr_gpt_response = json.loads(curr_gpt_response)["output"]
 
         if func_validate(curr_gpt_response, prompt=prompt):
-          return func_clean_up(curr_gpt_response, prompt=prompt)
+          return curr_gpt_response, func_clean_up(curr_gpt_response, prompt=prompt)
 
       except Exception as e:
         print("Error:", e, flush=True)
