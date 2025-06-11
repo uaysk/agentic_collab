@@ -1,14 +1,14 @@
 {
     "client": "openai", 
     "model": "gemma3:27b-it-qat",
-    "model-key": "<API-KEY>",
+    "model-key": "ollama",
     "model-costs": {
         "input":  0.5,
         "output": 1.5
     },
     "embeddings-client": "openai",
     "embeddings": "nomic-embed-text:latest",
-    "embeddings-key": "<API-KEY>",
+    "embeddings-key": "ollama",
     "embeddings-costs": {
         "input": 0.02,
         "output": 0.0

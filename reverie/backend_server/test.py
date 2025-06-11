@@ -7,7 +7,7 @@ Description: Wrapper functions for calling OpenAI APIs.
 from openai import OpenAI
 from utils import openai_api_key
 
-client = OpenAI(api_key=openai_api_key)
+client = OpenAI(api_key=openai_api_key, base_url="http://172.30.1.14:11434/v1")
 
 def ChatGPT_request(prompt): 
   """
@@ -23,7 +23,7 @@ def ChatGPT_request(prompt):
   """
   # temp_sleep()
   try: 
-    completion = client.chat.completions.create(model="gpt-4o-mini", 
+    completion = client.chat.completions.create(model="gemma3:27b-it-qat", 
     messages=[{"role": "user", "content": prompt}])
     return completion.choices[0].message.content
   

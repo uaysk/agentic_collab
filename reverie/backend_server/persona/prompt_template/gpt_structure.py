@@ -18,7 +18,7 @@ config_path = Path("../../openai_config.json")
 with open(config_path, "r") as f:
   openai_config = json.load(f) 
 
-client = OpenAI(api_key=openai_api_key)
+client = OpenAI(api_key=openai_api_key, base_url="http://172.30.1.14:11434/v1")
 
 if not use_openai:
   # TODO: The 'openai.api_base' option isn't read in the client API. You will need to pass it when you instantiate the client, e.g. 'OpenAI(base_url=api_base)'
@@ -81,6 +81,7 @@ def setup_client(type: str, config: dict):
   elif type == "openai":
     client = OpenAI(
       api_key=config["key"],
+      base_url="http://172.30.1.14:11434/v1",
     )
   else:
     raise ValueError("Invalid client")

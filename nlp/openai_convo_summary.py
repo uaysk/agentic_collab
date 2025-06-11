@@ -5,7 +5,7 @@
 import sys
 from openai import OpenAI
 
-client = OpenAI(api_key="Your API Key Here")
+client = OpenAI(api_key="Your API Key Here", base_url="http://172.30.1.14:11434/v1")
 
 
 # Function declaration
